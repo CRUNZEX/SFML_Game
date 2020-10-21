@@ -2,7 +2,7 @@
 void Game::initWindow()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Game", sf::Style::Close | sf::Style::Titlebar);
-	this->window->setFramerateLimit(144);
+	this->window->setFramerateLimit(60);
 	this->window->setVerticalSyncEnabled(false);
 }
 void Game::initPlayer()

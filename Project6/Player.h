@@ -3,6 +3,8 @@
 #include<SFML/System.hpp>
 #include<stdio.h>
 
+enum PLAYER_ANIMATION_STATES {IDLE = 0, MOVING_LEFT, MOVING_RIGHT, JUMPING, FALLING, KICK};
+
 class Player
 {
 private:
@@ -10,17 +12,23 @@ private:
 	sf::Texture texture;
 
 	//Animation
+	short animState;
 	sf::IntRect currentFrame;
 	sf::Clock animationTimer;
 
-	//Movement
-	bool moving;
+	//Physics
+	sf::Vector2f velocity;
+	float velocityMax;
+	float velocityMin;
+	float acceleration;
+	float drag;
 
 	//Core
 	void initVariables();
 	void initTexture();
 	void initSpite();
 	void initAnimation();
+	void initPhysics();
 
 	float movementSpeed;
 
@@ -33,6 +41,7 @@ public:
 	void update();
 	void render(sf::RenderTarget & target);
 
+	void updatePhysics();
 	void updateMovement();
 	void updateAnimation();
 };
