@@ -80,6 +80,12 @@ void Game::updateCollision()
 		this->player->resetVelocityY();
 		this->player->setPosition(this->player->getPosition().x, this->window->getSize().y - this->player->getGlobalBounds().height);
 	}
+
+	if (this->Ball->getPositionBall().y + this->Ball->getGlobalBoundsBall().height > this->window->getSize().y)
+	{
+		this->Ball->resetVelocityYBall();
+		this->Ball->setPositionBall(this->Ball->getPositionBall().x, this->window->getSize().y - this->Ball->getGlobalBoundsBall().height);
+	}
 }
 
 void Game::renderBall()
