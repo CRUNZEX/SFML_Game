@@ -39,8 +39,13 @@ void Game::update()
 			this->window->close();
 		if (e.Event::KeyPressed && e.Event::key.code == sf::Keyboard::Escape)
 			this->window->close();
+
+		if (e.Event::type == sf::Event::KeyReleased && (e.Event::key.code == sf::Keyboard::A || e.Event::key.code == sf::Keyboard::D || e.Event::key.code == sf::Keyboard::S || e.Event::key.code == sf::Keyboard::W))
+			this->player->resetAnimationTimer();
 	}
 	this->updatePlayer();
+
+	this->updateCollision();
 	
 }
 
@@ -62,4 +67,14 @@ void Game::renderPlayer()
 void Game::updatePlayer()
 {
 	this->player->update();
+}
+
+void Game::updateCollision()
+{
+	//collision bottom of screen
+	if (this->player->getGlobalBounds().top + this->player->getGlobalBounds().height > this->window->getSize().y)
+	{
+		this->player->resetVelocityY();
+		this->player->setPosition(this->player->getGlobalBounds().left, this->window->getSize().y - this->player->getGlobalBounds().height);
+	}
 }

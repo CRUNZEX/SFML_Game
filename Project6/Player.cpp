@@ -20,7 +20,7 @@ void Player::initSpite()
 
 	this->currentFrame = sf::IntRect(0, 0, 100, 100);
 
-	this->sprite.setPosition(500, 500);
+	//this->sprite.setPosition(500, 300);
 
 	this->sprite.setTextureRect(this->currentFrame);
 }
@@ -28,6 +28,7 @@ void Player::initSpite()
 void Player::initAnimation()
 {
 	this->animationTimer.restart();
+	this->animationSwitch = true;
 }
 
 void Player::initPhysics()
@@ -36,6 +37,8 @@ void Player::initPhysics()
 	this->velocityMin = 1.f;
 	this->acceleration = 3.f;
 	this->drag = 0.9f;
+	this->gravity = 4.f;
+	this->velocityMaxY = 15.f;
 }
 
 Player::Player()
@@ -54,13 +57,43 @@ Player::~Player()
 
 }
 
+const bool& Player::getAnimSwitch()
+{
+	bool anim_switch = this->animationSwitch;
+
+	if (this->animationSwitch)
+		this->animationSwitch = false;
+
+	return animationSwitch;
+}
+
+const sf::FloatRect Player::getGlobalBounds() const
+{
+	return this->sprite.getGlobalBounds();
+}
+
+void Player::setPosition(const float x, const float y)
+{
+	this->sprite.setPosition(x, y);
+}
+
+void Player::resetVelocityY()
+{
+	this->velocity.y = 0.f;
+}
+
+void Player::resetAnimationTimer()
+{
+	this->animationTimer.restart();
+	this->animationSwitch = true;
+}
+
 void Player::move(const float dirX, const float dirY)
 {
 	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 
 	//acceleration
 	this->velocity.x += dirX * this->acceleration;
-	/*this->velocity.y += dirY * this->acceleration;*/
 
 	//limit velocity
 	if (std::abs(this->velocity.x) > this->velocityMax)
@@ -83,6 +116,13 @@ void Player::render(sf::RenderTarget & target)
 
 void Player::updatePhysics()
 {
+	//gravity
+	this->velocity.y += 1.0 * this->gravity;
+	if (std::abs(this->velocity.x) > this->velocityMaxY)
+	{
+		this->velocity.y = this->velocityMaxY * ((this->velocity.y < 0.f) ? -1.f : 1.f);
+	}
+
 	//decceleration
 	this->velocity *= this->drag;
 
@@ -130,7 +170,7 @@ void Player::updateAnimation()
 {
 	if (this->animState == PLAYER_ANIMATION_STATES::IDLE)
 	{
-		if (this->animationTimer.getElapsedTime().asSeconds() >= 0.2f)
+		if (this->animationTimer.getElapsedTime().asSeconds() >= 0.2f || this->getAnimSwitch())
 		{
 			this->currentFrame.top = 0.f;
 			this->currentFrame.left += 100.f;
@@ -141,7 +181,7 @@ void Player::updateAnimation()
 			this->sprite.setTextureRect(this->currentFrame);
 		}
 	}
-	else if (this->animState == PLAYER_ANIMATION_STATES::MOVING_RIGHT || this->animState == PLAYER_ANIMATION_STATES::MOVING_LEFT)
+	else if (this->animState == PLAYER_ANIMATION_STATES::MOVING_RIGHT || this->animState == PLAYER_ANIMATION_STATES::MOVING_LEFT || this->getAnimSwitch())
 	{
 		if (this->animationTimer.getElapsedTime().asSeconds() >= 0.1f)
 		{
@@ -154,7 +194,7 @@ void Player::updateAnimation()
 			this->sprite.setTextureRect(this->currentFrame);
 		}
 	}
-	else if (this->animState == PLAYER_ANIMATION_STATES::KICK)
+	else if (this->animState == PLAYER_ANIMATION_STATES::KICK || this->getAnimSwitch())
 	{
 		if (this->animationTimer.getElapsedTime().asSeconds() >= 0.05f)
 		{
