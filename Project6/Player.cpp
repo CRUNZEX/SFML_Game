@@ -9,7 +9,7 @@ void Player::initTexture()
 {
 	if (!this->texture.loadFromFile("Pictures/Player1.png"))
 	{
-		printf("EROOR::Rab.png");
+		printf("EROOR::Picture player can't be load!");
 	}
 }
 
@@ -72,6 +72,11 @@ const sf::FloatRect Player::getGlobalBounds() const
 	return this->sprite.getGlobalBounds();
 }
 
+const sf::Vector2f Player::getPosition() const
+{
+	return this->sprite.getPosition();
+}
+
 void Player::setPosition(const float x, const float y)
 {
 	this->sprite.setPosition(x, y);
@@ -112,6 +117,13 @@ void Player::update()
 void Player::render(sf::RenderTarget & target)
 {
 	target.draw(this->sprite);
+
+	/*sf::CircleShape Circ;
+	Circ.setFillColor(sf::Color::Red);
+	Circ.setRadius(2.f);
+	Circ.setPosition(this->sprite.getPosition());
+
+	target.draw(Circ);*/
 }
 
 void Player::updatePhysics()

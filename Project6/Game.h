@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include "Ball.h"
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
 
@@ -9,9 +10,11 @@ private:
 	sf::RenderWindow* window;
 
 	Player* player;
+	ball* Ball;
 
 	void initWindow();
 	void initPlayer();
+	void initBall();
 
 public:
 	Game();
@@ -25,5 +28,8 @@ public:
 	void renderPlayer();
 	void updatePlayer();
 	void updateCollision();
+
+	void renderBall();
+	void updateBall();
 };
 

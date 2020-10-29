@@ -9,18 +9,22 @@ void Game::initPlayer()
 {
 	this->player = new Player();
 }
+void Game::initBall()
+{
+	this->Ball = new ball();
+}
 Game::Game()
 {
 	this->initWindow();
 	this->initPlayer();
+	this->initBall();
 }
 Game::~Game() 
 {
 	delete this->window;
 	delete this->player;
+	delete this->Ball;
 }
-
-
 
 void Game::run()
 {
@@ -44,7 +48,7 @@ void Game::update()
 			this->player->resetAnimationTimer();
 	}
 	this->updatePlayer();
-
+	this->updateBall();
 	this->updateCollision();
 	
 }
@@ -52,10 +56,9 @@ void Game::update()
 void Game::render()
 {
 	this->window->clear();
-	this->player->render(*this->window);
-	this->window->display();
-
 	this->renderPlayer();
+	this->renderBall();
+	this->window->display();
 
 }
 
@@ -72,9 +75,19 @@ void Game::updatePlayer()
 void Game::updateCollision()
 {
 	//collision bottom of screen
-	if (this->player->getGlobalBounds().top + this->player->getGlobalBounds().height > this->window->getSize().y)
+	if (this->player->getPosition().y + this->player->getGlobalBounds().height > this->window->getSize().y)
 	{
 		this->player->resetVelocityY();
-		this->player->setPosition(this->player->getGlobalBounds().left, this->window->getSize().y - this->player->getGlobalBounds().height);
+		this->player->setPosition(this->player->getPosition().x, this->window->getSize().y - this->player->getGlobalBounds().height);
 	}
+}
+
+void Game::renderBall()
+{
+	this->Ball->renderBall(*this->window);
+}
+
+void Game::updateBall()
+{
+	this->Ball->updateBall();
 }

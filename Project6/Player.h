@@ -42,6 +42,7 @@ public:
 	//accessors
 	const bool& getAnimSwitch();
 	const sf::FloatRect getGlobalBounds() const;
+	const sf::Vector2f getPosition() const;
 
 	//modifier
 	void setPosition(const float x, const float y);
