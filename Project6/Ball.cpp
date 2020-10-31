@@ -13,7 +13,7 @@ void ball::initTexture()
 void ball::initsSpite()
 {
 	this->sprite.setTexture(this->texture);
-	this->sprite.setScale(1.f, 1.f);
+	this->sprite.setScale(0.5f, 0.5f);
 }
 
 void ball::initPhysics()

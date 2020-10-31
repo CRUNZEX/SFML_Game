@@ -1,20 +1,20 @@
-#include "Player.h"
+#include "Player2.h"
 
-void Player::initVariables()
+void Player2::initVariables()
 {
-	this->animState = PLAYER_ANIMATION_STATES::IDLE;
+	this->animState = PLAYER2_ANIMATION_STATES::IDLE2;
 }
 
-void Player::initTexture()
+void Player2::initTexture()
 {
 	if (!this->texture.loadFromFile("Pictures/Player1.png"))
-		printf("EROOR::Picture player can't be load!");
+		printf("ERROR:: Picture player can't be load");
 }
 
-void Player::initSpite()
+void Player2::initSprite()
 {
 	this->sprite.setTexture(this->texture);
-	this->sprite.setScale(1.f, 1.f);
+	this->sprite.setScale(-1.f, 1.f);
 
 	this->currentFrame = sf::IntRect(0, 0, 100, 100);
 
@@ -23,40 +23,39 @@ void Player::initSpite()
 	this->sprite.setTextureRect(this->currentFrame);
 }
 
-void Player::initAnimation()
+void Player2::initAnimation()
 {
 	this->animationTimer.restart();
 	this->animationSwitch = true;
 }
 
-void Player::initPhysics()
+void Player2::initPhysics()
 {
 	this->velocityMax = 10.f;
 	this->velocityMin = 1.f;
 	this->acceleration = 3.f;
 	this->accelerationJump = 5.f;
-	this->drag = 0.9f;
+	this->drag = 0.9;
 	this->gravity = 4.f;
 	this->velocityMaxY = 15.f;
 }
 
-Player::Player()
+Player2::Player2()
 {
 	this->initVariables();
 	this->initTexture();
-	this->initSpite();
+	this->initSprite();
 	this->initAnimation();
 	this->initPhysics();
 
 	this->movementSpeed = 5.f;
 }
 
-Player::~Player()
+Player2::~Player2()
 {
-
 }
 
-const bool& Player::getAnimSwitch()
+const bool& Player2::getAnimSwitch()
 {
 	bool anim_switch = this->animationSwitch;
 
@@ -66,33 +65,33 @@ const bool& Player::getAnimSwitch()
 	return animationSwitch;
 }
 
-const sf::FloatRect Player::getGlobalBounds() const
+const sf::FloatRect Player2::getGlobalBounds() const
 {
 	return this->sprite.getGlobalBounds();
 }
 
-const sf::Vector2f Player::getPosition() const
+const sf::Vector2f Player2::getPosition() const
 {
 	return this->sprite.getPosition();
 }
 
-void Player::setPosition(const float x, const float y)
+void Player2::setPosition(const float x, const float y)
 {
 	this->sprite.setPosition(x, y);
 }
 
-void Player::resetVelocityY()
+void Player2::resetVelocityY()
 {
 	this->velocity.y = 0.f;
 }
 
-void Player::resetAnimationTimer()
+void Player2::resetAnimetionTimer()
 {
 	this->animationTimer.restart();
 	this->animationSwitch = true;
 }
 
-void Player::move(const float dirX, const float dirY)
+void Player2::move(const float dirX, const float dirY)
 {
 	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 
@@ -111,26 +110,19 @@ void Player::move(const float dirX, const float dirY)
 	}
 }
 
-void Player::update()
+void Player2::update()
 {
 	this->updateMovement();
 	this->updateAnimation();
 	this->updatePhysics();
 }
 
-void Player::render(sf::RenderTarget & target)
+void Player2::render(sf::RenderTarget& target)
 {
 	target.draw(this->sprite);
-
-	sf::CircleShape Circ;
-	Circ.setFillColor(sf::Color::Red);
-	Circ.setRadius(3.f);
-	Circ.setPosition(this->sprite.getPosition());
-
-	target.draw(Circ);
 }
 
-void Player::updatePhysics()
+void Player2::updatePhysics()
 {
 	//gravity
 	this->velocity.y += (1.0 * this->gravity);
@@ -155,41 +147,37 @@ void Player::updatePhysics()
 	this->sprite.move(this->velocity);
 }
 
-void Player::updateMovement()
+void Player2::updateMovement()
 {
-	this->animState = PLAYER_ANIMATION_STATES::IDLE;
-
-	//Keyboard
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	this->animState = PLAYER2_ANIMATION_STATES::IDLE2;
+	
+	//keyboard
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
 	{
 		this->move(-1.f, 0.f);
-		this->animState = PLAYER_ANIMATION_STATES::MOVING_LEFT;
+		this->animState = PLAYER2_ANIMATION_STATES::MOVING_LEFT2;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
 	{
 		this->move(1.f, 0.f);
-		this->animState = PLAYER_ANIMATION_STATES::MOVING_RIGHT;
+		this->animState = PLAYER2_ANIMATION_STATES::MOVING_RIGHT2;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
 	{
-		this->animState = PLAYER_ANIMATION_STATES::KICK;
+		this->animState = PLAYER2_ANIMATION_STATES::KICK2;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && this->jumping == 0)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I) && this->jumping == 0)
 	{
 		this->move(0.f, -3.f);
 		this->jumping = 1;
 	}
-	/*else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		this->sprite.move(0.f, 1.f);
-	}*/
 }
 
-void Player::updateAnimation()
+void Player2::updateAnimation()
 {
-	if (this->animState == PLAYER_ANIMATION_STATES::IDLE)
+	if (this->animState == PLAYER2_ANIMATION_STATES::IDLE2)
 	{
 		if (this->animationTimer.getElapsedTime().asSeconds() >= 0.2f)
 		{
@@ -202,7 +190,7 @@ void Player::updateAnimation()
 			this->sprite.setTextureRect(this->currentFrame);
 		}
 	}
-	else if (this->animState == PLAYER_ANIMATION_STATES::MOVING_RIGHT || this->animState == PLAYER_ANIMATION_STATES::MOVING_LEFT)
+	else if (this->animState == PLAYER2_ANIMATION_STATES::MOVING_RIGHT2 || this->animState == PLAYER2_ANIMATION_STATES::MOVING_LEFT2)
 	{
 		if (this->animationTimer.getElapsedTime().asSeconds() >= 0.1f)
 		{
@@ -215,7 +203,7 @@ void Player::updateAnimation()
 			this->sprite.setTextureRect(this->currentFrame);
 		}
 	}
-	else if (this->animState == PLAYER_ANIMATION_STATES::KICK)
+	else if (this->animState == PLAYER2_ANIMATION_STATES::KICK2)
 	{
 		if (this->animationTimer.getElapsedTime().asSeconds() >= 0.05f)
 		{

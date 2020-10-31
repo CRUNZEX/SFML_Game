@@ -6,9 +6,9 @@
 #include"Collider.h"
 #include"Platform.h"
 
-enum PLAYER_ANIMATION_STATES {IDLE = 0, MOVING_LEFT, MOVING_RIGHT, JUMPING, FALLING, KICK};
+enum PLAYER2_ANIMATION_STATES { IDLE2 = 0, MOVING_LEFT2, MOVING_RIGHT2, JUMPING2, FALLING2, KICK2 };
 
-class Player
+class Player2
 {
 private:
 	sf::Sprite sprite;
@@ -34,18 +34,17 @@ private:
 	//Core
 	void initVariables();
 	void initTexture();
-	void initSpite();
+	void initSprite();
 	void initAnimation();
 	void initPhysics();
 
 	float movementSpeed;
 
-	sf::RectangleShape body;
 
 public:
-	Player();
-	virtual ~Player();
-	
+	Player2();
+	virtual ~Player2();
+
 	//accessors
 	const bool& getAnimSwitch();
 	const sf::FloatRect getGlobalBounds() const;
@@ -55,17 +54,15 @@ public:
 	void setPosition(const float x, const float y);
 	void resetVelocityY();
 
-	void resetAnimationTimer();
+	void resetAnimetionTimer();
 	void move(const float dirX, const float dirY);
-	
+
 	//functions
 	void update();
-	void render(sf::RenderTarget & target);
+	void render(sf::RenderTarget& target);
 
 	void updatePhysics();
 	void updateMovement();
 	void updateAnimation();
-
-	Collider GetCollider() { return Collider(body); }
 };
 
