@@ -105,11 +105,37 @@ void Game::updateCollision()
 		this->player2->setPosition(this->player2->getPosition().x, this->window->getSize().y - this->player2->getGlobalBounds().height - 30);
 	}
 
-	if (this->Ball->getPositionBall().y + this->Ball->getGlobalBoundsBall().height + 30 > this->window->getSize().y)
+	if (this->Ball->getPositionBall().y + this->Ball->getGlobalBoundsBall().height + 35 > this->window->getSize().y)
 	{
 		this->Ball->resetVelocityYBall();
-		this->Ball->setPositionBall(this->Ball->getPositionBall().x, this->window->getSize().y - this->Ball->getGlobalBoundsBall().height - 30);
+		this->Ball->setPositionBall(this->Ball->getPositionBall().x, this->window->getSize().y - this->Ball->getGlobalBoundsBall().height - 35);
 	}
+
+	//collision right of screen
+	if (this->player->getPosition().x + this->player->getGlobalBounds().width > this->window->getSize().x)
+	{
+		this->player->resetVelocityX();
+		this->player->setPosition( this->window->getSize().x - this->player->getGlobalBounds().width, this->player->getPosition().y);
+	}
+
+	if (this->player2->getPosition().x + this->player2->getGlobalBounds().width > this->window->getSize().x + 100)
+	{
+		this->player2->resetVelocityX();
+		this->player2->setPosition(this->window->getSize().x - this->player2->getGlobalBounds().width + 100, this->player2->getPosition().y);
+	}
+
+	//collision left of screen
+	if (this->player->getPosition().x + this->player->getGlobalBounds().width < 100)
+	{
+		this->player->resetVelocityX();
+		this->player->setPosition( 0, this->player->getPosition().y);
+	}
+	if (this->player2->getPosition().x + this->player2->getGlobalBounds().width < 200)
+	{
+		this->player2->resetVelocityX();
+		this->player2->setPosition( 100, this->player2->getPosition().y);
+	}
+
 }
 
 void Game::renderBall()

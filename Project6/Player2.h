@@ -52,6 +52,7 @@ public:
 
 	//modifier
 	void setPosition(const float x, const float y);
+	void resetVelocityX();
 	void resetVelocityY();
 
 	void resetAnimetionTimer();

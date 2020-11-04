@@ -18,7 +18,7 @@ void Player2::initSprite()
 
 	this->currentFrame = sf::IntRect(0, 0, 100, 100);
 
-	this->sprite.setPosition(500, 300);
+	this->sprite.setPosition(300, 960);
 
 	this->sprite.setTextureRect(this->currentFrame);
 }
@@ -80,6 +80,11 @@ void Player2::setPosition(const float x, const float y)
 	this->sprite.setPosition(x, y);
 }
 
+void Player2::resetVelocityX()
+{
+	this->velocity.x = 0.f;
+}
+
 void Player2::resetVelocityY()
 {
 	this->velocity.y = 0.f;
@@ -120,6 +125,13 @@ void Player2::update()
 void Player2::render(sf::RenderTarget& target)
 {
 	target.draw(this->sprite);
+
+	sf::CircleShape Circ;
+	Circ.setFillColor(sf::Color::Red);
+	Circ.setRadius(3.f);
+	Circ.setPosition(this->sprite.getPosition());
+
+	target.draw(Circ);
 }
 
 void Player2::updatePhysics()

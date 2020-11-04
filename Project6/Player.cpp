@@ -18,7 +18,7 @@ void Player::initSpite()
 
 	this->currentFrame = sf::IntRect(0, 0, 100, 100);
 
-	this->sprite.setPosition(500, 300);
+	this->sprite.setPosition(900, 690);
 
 	this->sprite.setTextureRect(this->currentFrame);
 }
@@ -79,6 +79,11 @@ const sf::Vector2f Player::getPosition() const
 void Player::setPosition(const float x, const float y)
 {
 	this->sprite.setPosition(x, y);
+}
+
+void Player::resetVelocityX()
+{
+	this->velocity.x = 0.f;
 }
 
 void Player::resetVelocityY()
