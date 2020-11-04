@@ -142,32 +142,19 @@ void Player::updatePhysics()
 	if (this->jumping == true && this->gravityBool == false)
 	{
 		if (this->velocity.y < 0)
-		{
 			this->jumpingUp = false;	
-		}
 		if (this->jumpingUp == true)
 			this->velocity.y -= 1.f;
 		else
 		{
+			//gravity
 			this->velocity.y += (1.0 * this->gravity);
 			if (std::abs(this->velocity.x) > this->velocityMaxY)
-			{
 				this->velocity.y = this->velocityMaxY * ((this->velocity.y < 0.f) ? -1.f : 1.f);
-			}
 		}
 	}
 	else
-	{
-		//gravity
-		this->velocity.y += (1.0 * this->gravity);
-	}
-
-	//gravity
-	/*this->velocity.y += (1.0 * this->gravity);
-	if (std::abs(this->velocity.x) > this->velocityMaxY)
-	{
-		this->velocity.y = this->velocityMaxY * ((this->velocity.y < 0.f) ? -1.f : 1.f);
-	}*/
+		this->velocity.y += (1.0 * this->gravity);	//gravity
 
 	if (this->gravityBool == true)
 		this->velocity.y += (1.0 * this->gravity);
