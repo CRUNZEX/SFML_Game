@@ -97,6 +97,9 @@ void Game::updateCollision()
 	{
 		this->player->resetVelocityY();
 		this->player->setPosition(this->player->getPosition().x, this->window->getSize().y - this->player->getGlobalBounds().height - 30);
+		this->player->jumping = false;
+		this->player->jumpingUp = false;
+		this->player->gravityBool = false;
 	}
 
 	if (this->player2->getPosition().y + this->player2->getGlobalBounds().height + 30 > this->window->getSize().y)
@@ -112,28 +115,28 @@ void Game::updateCollision()
 	}
 
 	//collision right of screen
-	if (this->player->getPosition().x + this->player->getGlobalBounds().width > this->window->getSize().x)
+	if (this->player->getPosition().x + this->player->getGlobalBounds().width > this->window->getSize().x + 100)
 	{
 		this->player->resetVelocityX();
-		this->player->setPosition( this->window->getSize().x - this->player->getGlobalBounds().width, this->player->getPosition().y);
+		this->player->setPosition( this->window->getSize().x - this->player->getGlobalBounds().width + 100, this->player->getPosition().y);
 	}
 
-	if (this->player2->getPosition().x + this->player2->getGlobalBounds().width > this->window->getSize().x + 100)
+	if (this->player2->getPosition().x + this->player2->getGlobalBounds().width > this->window->getSize().x)
 	{
 		this->player2->resetVelocityX();
-		this->player2->setPosition(this->window->getSize().x - this->player2->getGlobalBounds().width + 100, this->player2->getPosition().y);
+		this->player2->setPosition(this->window->getSize().x - this->player2->getGlobalBounds().width, this->player2->getPosition().y);
 	}
 
 	//collision left of screen
-	if (this->player->getPosition().x + this->player->getGlobalBounds().width < 100)
+	if (this->player->getPosition().x + this->player->getGlobalBounds().width < 200)
 	{
 		this->player->resetVelocityX();
-		this->player->setPosition( 0, this->player->getPosition().y);
+		this->player->setPosition( 100, this->player->getPosition().y);
 	}
-	if (this->player2->getPosition().x + this->player2->getGlobalBounds().width < 200)
+	if (this->player2->getPosition().x + this->player2->getGlobalBounds().width < 100)
 	{
 		this->player2->resetVelocityX();
-		this->player2->setPosition( 100, this->player2->getPosition().y);
+		this->player2->setPosition( 0, this->player2->getPosition().y);
 	}
 
 }

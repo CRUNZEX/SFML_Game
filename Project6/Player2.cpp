@@ -14,11 +14,11 @@ void Player2::initTexture()
 void Player2::initSprite()
 {
 	this->sprite.setTexture(this->texture);
-	this->sprite.setScale(-1.f, 1.f);
+	this->sprite.setScale(1.f, 1.f);
 
 	this->currentFrame = sf::IntRect(0, 0, 100, 100);
 
-	this->sprite.setPosition(300, 960);
+	this->sprite.setPosition(900, 300);
 
 	this->sprite.setTextureRect(this->currentFrame);
 }
@@ -138,7 +138,7 @@ void Player2::updatePhysics()
 {
 	//gravity
 	this->velocity.y += (1.0 * this->gravity);
-	if (std::abs(this->velocity.x) > this->velocityMaxY)
+	if (std::abs(this->velocity.y) > this->velocityMaxY)
 	{
 		this->velocity.y = this->velocityMaxY * ((this->velocity.y < 0.f) ? -1.f : 1.f);
 		this->jumping = 0;
@@ -157,6 +157,11 @@ void Player2::updatePhysics()
 	}
 
 	this->sprite.move(this->velocity);
+}
+
+void Player2::updateJump()
+{
+
 }
 
 void Player2::updateMovement()

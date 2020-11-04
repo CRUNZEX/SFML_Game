@@ -63,6 +63,7 @@ public:
 	void render(sf::RenderTarget& target);
 
 	void updatePhysics();
+	void updateJump();
 	void updateMovement();
 	void updateAnimation();
 };

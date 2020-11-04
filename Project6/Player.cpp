@@ -8,17 +8,17 @@ void Player::initVariables()
 void Player::initTexture()
 {
 	if (!this->texture.loadFromFile("Pictures/Player1.png"))
-		printf("EROOR::Picture player can't be load!");
+		printf("ERROR::Picture player can't be load!");
 }
 
 void Player::initSpite()
 {
 	this->sprite.setTexture(this->texture);
-	this->sprite.setScale(1.f, 1.f);
+	this->sprite.setScale(-1.f, 1.f);
 
 	this->currentFrame = sf::IntRect(0, 0, 100, 100);
 
-	this->sprite.setPosition(900, 690);
+	this->sprite.setPosition(300, 690);
 
 	this->sprite.setTextureRect(this->currentFrame);
 }
@@ -34,10 +34,10 @@ void Player::initPhysics()
 	this->velocityMax = 10.f;
 	this->velocityMin = 1.f;
 	this->acceleration = 3.f;
-	this->accelerationJump = 5.f;
+	this->accelerationJump = 3.f;
 	this->drag = 0.9f;
-	this->gravity = 4.f;
-	this->velocityMaxY = 15.f;
+	this->gravity = 0.6f;
+	this->velocityMaxY = 1.f;
 }
 
 Player::Player()
@@ -103,17 +103,18 @@ void Player::move(const float dirX, const float dirY)
 
 	//acceleration
 	this->velocity.x += dirX * this->acceleration;
-	this->velocity.y += dirY * this->accelerationJump;
+	//this->velocity.y += dirY * this->accelerationJump;
 
 	//limit velocity
 	if (std::abs(this->velocity.x) > this->velocityMax)
 	{
 		this->velocity.x = this->velocityMax * ((this->velocity.x < 0.f) ? -1.f : 1.f);
 	}
-	if (std::abs(this->velocity.y) > this->velocityMax)
+	/*if (std::abs(this->velocity.y) > this->velocityMax)
 	{
 		this->velocity.y = this->velocityMax * ((this->velocity.y < 0.f) ? -1.f : 1.f);
-	}
+		printf("%f", this->velocity.y);
+	}*/
 }
 
 void Player::update()
@@ -137,13 +138,39 @@ void Player::render(sf::RenderTarget & target)
 
 void Player::updatePhysics()
 {
+	//jumping
+	if (this->jumping == true && this->gravityBool == false)
+	{
+		if (this->velocity.y < 0)
+		{
+			this->jumpingUp = false;	
+		}
+		if (this->jumpingUp == true)
+			this->velocity.y -= 1.f;
+		else
+		{
+			this->velocity.y += (1.0 * this->gravity);
+			if (std::abs(this->velocity.x) > this->velocityMaxY)
+			{
+				this->velocity.y = this->velocityMaxY * ((this->velocity.y < 0.f) ? -1.f : 1.f);
+			}
+		}
+	}
+	else
+	{
+		//gravity
+		this->velocity.y += (1.0 * this->gravity);
+	}
+
 	//gravity
-	this->velocity.y += (1.0 * this->gravity);
+	/*this->velocity.y += (1.0 * this->gravity);
 	if (std::abs(this->velocity.x) > this->velocityMaxY)
 	{
 		this->velocity.y = this->velocityMaxY * ((this->velocity.y < 0.f) ? -1.f : 1.f);
-		this->jumping = 0;
-	}
+	}*/
+
+	if (this->gravityBool == true)
+		this->velocity.y += (1.0 * this->gravity);
 
 	//decceleration
 	this->velocity *= (this->drag);
@@ -154,7 +181,6 @@ void Player::updatePhysics()
 	if (std::abs(this->velocity.y) < this->velocityMin)
 	{
 		this->velocity.y = 0.f;
-		this->jumping = 0;
 	}
 
 	this->sprite.move(this->velocity);
@@ -167,11 +193,13 @@ void Player::updateMovement()
 	//Keyboard
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
+		this->gravityBool = true;
 		this->move(-1.f, 0.f);
 		this->animState = PLAYER_ANIMATION_STATES::MOVING_LEFT;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
+		this->gravityBool = true;
 		this->move(1.f, 0.f);
 		this->animState = PLAYER_ANIMATION_STATES::MOVING_RIGHT;
 	}
@@ -181,10 +209,12 @@ void Player::updateMovement()
 		this->animState = PLAYER_ANIMATION_STATES::KICK;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && this->jumping == 0)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && this->jumping == false)
 	{
-		this->move(0.f, -3.f);
-		this->jumping = 1;
+		this->jumping = true;
+		this->jumpingUp = true;
+		this->gravityBool = true;
+		this->velocity.y = -30.f;
 	}
 	/*else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{

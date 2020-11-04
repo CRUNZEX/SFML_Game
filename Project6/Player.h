@@ -29,7 +29,6 @@ private:
 	float drag;
 	float gravity;
 	float velocityMaxY;
-	int jumping = 0;
 
 	//Core
 	void initVariables();
@@ -66,6 +65,10 @@ public:
 	void updatePhysics();
 	void updateMovement();
 	void updateAnimation();
+
+	bool jumping = false;
+	bool jumpingUp = false;
+	bool gravityBool = false;
 
 	Collider GetCollider() { return Collider(body); }
 };
