@@ -115,6 +115,7 @@ void Player::move(const float dirX, const float dirY)
 		this->velocity.y = this->velocityMax * ((this->velocity.y < 0.f) ? -1.f : 1.f);
 		printf("%f", this->velocity.y);
 	}*/
+
 }
 
 void Player::update()
@@ -201,8 +202,10 @@ void Player::updateMovement()
 		this->jumping = true;
 		this->jumpingUp = true;
 		this->gravityBool = true;
+		
 		this->velocity.y = -30.f;
 	}
+	
 	/*else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		this->sprite.move(0.f, 1.f);

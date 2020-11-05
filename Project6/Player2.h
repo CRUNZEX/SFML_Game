@@ -66,5 +66,9 @@ public:
 	void updateJump();
 	void updateMovement();
 	void updateAnimation();
+
+	bool jumping2 = false;
+	bool jumpingUp2 = false;
+	bool gravityBool2 = false;
 };
 

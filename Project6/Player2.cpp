@@ -18,7 +18,7 @@ void Player2::initSprite()
 
 	this->currentFrame = sf::IntRect(0, 0, 100, 100);
 
-	this->sprite.setPosition(900, 300);
+	this->sprite.setPosition(900, 690);
 
 	this->sprite.setTextureRect(this->currentFrame);
 }
@@ -34,10 +34,10 @@ void Player2::initPhysics()
 	this->velocityMax = 10.f;
 	this->velocityMin = 1.f;
 	this->acceleration = 3.f;
-	this->accelerationJump = 5.f;
-	this->drag = 0.9;
-	this->gravity = 4.f;
-	this->velocityMaxY = 15.f;
+	this->accelerationJump = 3.f;
+	this->drag = 0.9f;
+	this->gravity = 0.6f;
+	this->velocityMaxY = 1.f;
 }
 
 Player2::Player2()
@@ -102,17 +102,17 @@ void Player2::move(const float dirX, const float dirY)
 
 	//acceleration
 	this->velocity.x += dirX * this->acceleration;
-	this->velocity.y += dirY * this->accelerationJump;
+	/*this->velocity.y += dirY * this->accelerationJump;*/
 
 	//limit velocity
 	if (std::abs(this->velocity.x) > this->velocityMax)
 	{
 		this->velocity.x = this->velocityMax * ((this->velocity.x < 0.f) ? -1.f : 1.f);
 	}
-	if (std::abs(this->velocity.y) > this->velocityMax)
+	/*if (std::abs(this->velocity.y) > this->velocityMax)
 	{
 		this->velocity.y = this->velocityMax * ((this->velocity.y < 0.f) ? -1.f : 1.f);
-	}
+	}*/
 }
 
 void Player2::update()
@@ -136,13 +136,26 @@ void Player2::render(sf::RenderTarget& target)
 
 void Player2::updatePhysics()
 {
-	//gravity
-	this->velocity.y += (1.0 * this->gravity);
-	if (std::abs(this->velocity.y) > this->velocityMaxY)
+	//jumping
+	if (this->jumping2 == true && this->gravityBool2 == false)
 	{
-		this->velocity.y = this->velocityMaxY * ((this->velocity.y < 0.f) ? -1.f : 1.f);
-		this->jumping = 0;
+		if (this->velocity.y < 0)
+			this->jumpingUp2 = false;
+		if (this->jumpingUp2 == true)
+			this->velocity.y -= 1.f;
+		else
+		{
+			//gravity
+			this->velocity.y += (1.0 * this->gravity);
+			if (std::abs(this->velocity.x) > this->velocityMaxY)
+				this->velocity.y = this->velocityMaxY * ((this->velocity.y < 0.f) ? -1.f : 1.f);
+		}
 	}
+	else
+		this->velocity.y += (1.0 * this->gravity);	//gravity
+
+	if (this->gravityBool2 == true)
+		this->velocity.y += (1.0 * this->gravity);
 
 	//decceleration
 	this->velocity *= (this->drag);
@@ -153,7 +166,6 @@ void Player2::updatePhysics()
 	if (std::abs(this->velocity.y) < this->velocityMin)
 	{
 		this->velocity.y = 0.f;
-		this->jumping = 0;
 	}
 
 	this->sprite.move(this->velocity);
@@ -185,10 +197,13 @@ void Player2::updateMovement()
 		this->animState = PLAYER2_ANIMATION_STATES::KICK2;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I) && this->jumping == 0)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I) && this->jumping2 == false)
 	{
-		this->move(0.f, -3.f);
-		this->jumping = 1;
+		this->jumping2 = true;
+		this->jumpingUp2 = true;
+		this->gravityBool2 = true;
+
+		this->velocity.y = -30.f;
 	}
 }
 

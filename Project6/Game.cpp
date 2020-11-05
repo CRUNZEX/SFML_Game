@@ -67,7 +67,6 @@ void Game::render()
 	this->renderPlayer2();
 	this->renderBall();
 	this->window->display();
-
 }
 
 void Game::renderPlayer()
@@ -106,6 +105,9 @@ void Game::updateCollision()
 	{
 		this->player2->resetVelocityY();
 		this->player2->setPosition(this->player2->getPosition().x, this->window->getSize().y - this->player2->getGlobalBounds().height - 30);
+		this->player2->jumping2 = false;
+		this->player2->jumpingUp2 = false;
+		this->player2->gravityBool2 = false;
 	}
 
 	if (this->Ball->getPositionBall().y + this->Ball->getGlobalBoundsBall().height + 35 > this->window->getSize().y)
@@ -138,6 +140,8 @@ void Game::updateCollision()
 		this->player2->resetVelocityX();
 		this->player2->setPosition( 0, this->player2->getPosition().y);
 	}
+
+	//collision
 
 }
 
