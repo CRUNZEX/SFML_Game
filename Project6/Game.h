@@ -6,6 +6,7 @@
 #include "Platform.h"
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
+#include<stdio.h>
 
 class Game
 {

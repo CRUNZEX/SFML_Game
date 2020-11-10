@@ -36,7 +36,10 @@ public:
 
 	//modifier
 	void setPositionBall(const float x, const float y);
+	void resetVelocityXBall();
 	void resetVelocityYBall();
+
+	void move(const float dirX, const float dirY);
 
 	//functions
 	void updateBall();

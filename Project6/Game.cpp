@@ -122,11 +122,15 @@ void Game::updateCollision()
 		this->player->resetVelocityX();
 		this->player->setPosition( this->window->getSize().x - this->player->getGlobalBounds().width + 100, this->player->getPosition().y);
 	}
-
 	if (this->player2->getPosition().x + this->player2->getGlobalBounds().width > this->window->getSize().x)
 	{
 		this->player2->resetVelocityX();
 		this->player2->setPosition(this->window->getSize().x - this->player2->getGlobalBounds().width, this->player2->getPosition().y);
+	}
+	if (this->Ball->getPositionBall().x + this->Ball->getGlobalBoundsBall().width > this->window->getSize().x)
+	{
+		this->Ball->resetVelocityXBall();
+		this->Ball->setPositionBall(this->window->getSize().x - this->Ball->getGlobalBoundsBall().width, this->Ball->getPositionBall().y);
 	}
 
 	//collision left of screen
@@ -142,6 +146,12 @@ void Game::updateCollision()
 	}
 
 	//collision
+
+	if (this->player->getGlobalBounds().intersects(this->Ball->getGlobalBoundsBall()) && this->player->getPosition().x > this->Ball->getPositionBall().x)
+	{
+		printf("Collsion");
+		this->Ball->move(3.f, 0.f);
+	}
 
 }
 
