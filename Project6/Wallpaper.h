@@ -15,21 +15,21 @@ class Wallpaper
 {
 private:
 	BGWeather* BGweather;
+	BGCheer* BGcheer;
+	BGField* BGfield;
 
 	sf::Texture texture;
 
-	void random();
-
 	//Core
-	void initTexture();
 	void initWallpaper();
+	void initBGcheer();
+	void initBGfield();
 
 public:
 	Wallpaper();
 	virtual ~Wallpaper();
 
 	//function
-	void update();
 	void render(sf::RenderTarget & target);
 };
 

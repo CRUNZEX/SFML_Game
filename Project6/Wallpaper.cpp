@@ -1,24 +1,25 @@
 #include "Wallpaper.h"
 
-void Wallpaper::random()
-{
-	srand(time(NULL));
-	printf("%d", rand());
-}
-
-void Wallpaper::initTexture()
-{
-
-}
-
 void Wallpaper::initWallpaper()
 {
 	this->BGweather = new BGWeather;
 }
 
+void Wallpaper::initBGcheer()
+{
+	this->BGcheer = new BGCheer;
+}
+
+void Wallpaper::initBGfield()
+{
+	this->BGfield = new BGField;
+}
+
 Wallpaper::Wallpaper()
 {
+	this->initBGfield();
 	this->initWallpaper();
+	this->initBGcheer();
 }
 
 Wallpaper::~Wallpaper()
@@ -26,12 +27,9 @@ Wallpaper::~Wallpaper()
 
 }
 
-void Wallpaper::update()
-{
-
-}
-
 void Wallpaper::render(sf::RenderTarget& target)
 {
+	target.draw(this->BGfield->bg);
 	target.draw(this->BGweather->bg);
+	target.draw(this->BGcheer->bg);
 }

@@ -109,10 +109,10 @@ void Game::updatePlayer2()
 void Game::updateCollision()
 {
 	//collision bottom of screen
-	if (this->player->getPosition().y + this->player->getGlobalBounds().height + 30 > this->window->getSize().y)
+	if (this->player->getPosition().y + this->player->getGlobalBounds().height + 75 > this->window->getSize().y)
 	{
 		this->player->resetVelocityY();
-		this->player->setPosition(this->player->getPosition().x, this->window->getSize().y - this->player->getGlobalBounds().height - 30);
+		this->player->setPosition(this->player->getPosition().x, this->window->getSize().y - this->player->getGlobalBounds().height - 75);
 		/*this->player->jumping = false;
 		this->player->jumpingUp = false;
 		this->player->gravityBool = false;*/
@@ -120,16 +120,16 @@ void Game::updateCollision()
 		this->player->jumpBreak();
 	}
 
-	if (this->player2->getPosition().y + this->player2->getGlobalBounds().height + 30 > this->window->getSize().y)
+	if (this->player2->getPosition().y + this->player2->getGlobalBounds().height + 75 > this->window->getSize().y)
 	{
 		this->player2->resetVelocityY();
-		this->player2->setPosition(this->player2->getPosition().x, this->window->getSize().y - this->player2->getGlobalBounds().height - 30);
+		this->player2->setPosition(this->player2->getPosition().x, this->window->getSize().y - this->player2->getGlobalBounds().height - 75);
 		this->player2->jumping2 = false;
 		this->player2->jumpingUp2 = false;
 		this->player2->gravityBool2 = false;
 	}
 
-	if (this->Ball->getPositionBall().y + this->Ball->getGlobalBoundsBall().height + 35 > this->window->getSize().y)
+	if (this->Ball->getPositionBall().y + this->Ball->getGlobalBoundsBall().height + 80 > this->window->getSize().y)
 	{
 		if (this->Ball->ballBounds < 5 && this->Ball->ballBounds >= 0)
 		{
@@ -138,7 +138,7 @@ void Game::updateCollision()
 		}
 		/*else
 			this->Ball->ballBounds = 0;*/
-		this->Ball->setPositionBall(this->Ball->getPositionBall().x, this->window->getSize().y - this->Ball->getGlobalBoundsBall().height - 35);
+		this->Ball->setPositionBall(this->Ball->getPositionBall().x, this->window->getSize().y - this->Ball->getGlobalBoundsBall().height - 80);
 
 		//printf("Bounds : %d\n", this->Ball->ballBounds);
 		
