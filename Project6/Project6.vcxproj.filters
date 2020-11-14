@@ -36,6 +36,18 @@
     <ClCompile Include="Player2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Wallpaper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BGWeather.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BGCheer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BGField.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -54,6 +66,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Player2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wallpaper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BGWeather.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BGCheer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BGField.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

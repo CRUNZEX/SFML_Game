@@ -21,7 +21,6 @@ private:
 	bool animationSwitch;
 
 	//Physics
-	sf::Vector2f velocity;
 	float velocityMax;
 	float velocityMin;
 	float acceleration;
@@ -45,6 +44,17 @@ public:
 	Player();
 	virtual ~Player();
 	
+	//physics
+	sf::Vector2f velocity;
+	bool kick = false;
+
+	//jump
+	void jump();
+	void jumpBreak();
+	bool jumping = false;
+	bool jumpingUp = false;
+	bool gravityBool = false;
+
 	//accessors
 	const bool& getAnimSwitch();
 	const sf::FloatRect getGlobalBounds() const;
@@ -66,10 +76,6 @@ public:
 	void updateMovement();
 	void updateAnimation();
 
-	//jump
-	bool jumping = false;
-	bool jumpingUp = false;
-	bool gravityBool = false;
 
 	Collider GetCollider() { return Collider(body); }
 };

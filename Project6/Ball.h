@@ -10,7 +10,6 @@ private:
 	sf::Texture texture;
 
 	//Physics
-	sf::Vector2f velocity;
 	float velocityMax;
 	float velocityMin;
 	float acceleration;
@@ -29,6 +28,19 @@ private:
 public:
 	ball();
 	virtual ~ball();
+	
+	//physics
+	sf::Vector2f velocity;
+	int ballBounds = 0;
+	int ballJump = 0;
+
+	//jumping
+	bool jumping = false;
+	bool jumpingUp = false;
+	bool gravityBool = false;
+	
+	//collision
+	int collision = 0;
 
 	//accessors
 	const sf::FloatRect getGlobalBoundsBall() const;
@@ -44,6 +56,7 @@ public:
 	//functions
 	void updateBall();
 	void renderBall(sf::RenderTarget& target);
+
 	
 	void updatePhysicsBall();
 	void updateMovementBall();

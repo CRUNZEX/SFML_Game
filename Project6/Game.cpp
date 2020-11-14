@@ -1,4 +1,9 @@
 #include "Game.h"
+
+void Game::initWallpaper()
+{
+	this->wallpaper = new Wallpaper();
+}
 void Game::initWindow()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Game", sf::Style::Close | sf::Style::Titlebar);
@@ -20,6 +25,7 @@ void Game::initBall()
 Game::Game()
 {
 	this->initWindow();
+	this->initWallpaper();
 	this->initPlayer();
 	this->initPlayer2();
 	this->initBall();
@@ -63,10 +69,21 @@ void Game::update()
 void Game::render()
 {
 	this->window->clear();
+	this->renderWallpaper();
 	this->renderPlayer();
 	this->renderPlayer2();
 	this->renderBall();
 	this->window->display();
+}
+
+void Game::renderWallpaper()
+{
+	this->wallpaper->render(*this->window);
+}
+
+void Game::updateWallpaper()
+{
+
 }
 
 void Game::renderPlayer()
@@ -96,9 +113,11 @@ void Game::updateCollision()
 	{
 		this->player->resetVelocityY();
 		this->player->setPosition(this->player->getPosition().x, this->window->getSize().y - this->player->getGlobalBounds().height - 30);
-		this->player->jumping = false;
+		/*this->player->jumping = false;
 		this->player->jumpingUp = false;
-		this->player->gravityBool = false;
+		this->player->gravityBool = false;*/
+
+		this->player->jumpBreak();
 	}
 
 	if (this->player2->getPosition().y + this->player2->getGlobalBounds().height + 30 > this->window->getSize().y)
@@ -112,8 +131,19 @@ void Game::updateCollision()
 
 	if (this->Ball->getPositionBall().y + this->Ball->getGlobalBoundsBall().height + 35 > this->window->getSize().y)
 	{
-		this->Ball->resetVelocityYBall();
+		if (this->Ball->ballBounds < 5 && this->Ball->ballBounds >= 0)
+		{
+			this->Ball->ballBounds++;
+			this->Ball->velocity.y *= -1.5f;
+		}
+		/*else
+			this->Ball->ballBounds = 0;*/
 		this->Ball->setPositionBall(this->Ball->getPositionBall().x, this->window->getSize().y - this->Ball->getGlobalBoundsBall().height - 35);
+
+		//printf("Bounds : %d\n", this->Ball->ballBounds);
+		
+		//this->Ball->resetVelocityYBall();
+		//this->Ball->setPositionBall(this->Ball->getPositionBall().x, this->window->getSize().y - this->Ball->getGlobalBoundsBall().height - 35);
 	}
 
 	//collision right of screen
@@ -129,7 +159,7 @@ void Game::updateCollision()
 	}
 	if (this->Ball->getPositionBall().x + this->Ball->getGlobalBoundsBall().width > this->window->getSize().x)
 	{
-		this->Ball->resetVelocityXBall();
+		this->Ball->velocity.x = -this->Ball->velocity.x;
 		this->Ball->setPositionBall(this->window->getSize().x - this->Ball->getGlobalBoundsBall().width, this->Ball->getPositionBall().y);
 	}
 
@@ -144,13 +174,36 @@ void Game::updateCollision()
 		this->player2->resetVelocityX();
 		this->player2->setPosition( 0, this->player2->getPosition().y);
 	}
+	if (this->Ball->getPositionBall().x + this->Ball->getGlobalBoundsBall().width < 50)
+	{
+		this->Ball->velocity.x = -this->Ball->velocity.x;
+		this->Ball->setPositionBall(0, this->Ball->getPositionBall().y);
+	}
 
 	//collision
 
-	if (this->player->getGlobalBounds().intersects(this->Ball->getGlobalBoundsBall()) && this->player->getPosition().x > this->Ball->getPositionBall().x)
+	if (this->player->getGlobalBounds().intersects(this->Ball->getGlobalBoundsBall()))
 	{
-		printf("Collsion");
-		this->Ball->move(3.f, 0.f);
+		//printf("Player : %f     Ball : %f\n", this->player->getPosition().x, this->Ball->getPositionBall().x);
+		if (this->player->getPosition().x - 20.f <= this->Ball->getPositionBall().x && this->player->kick == false)
+		{
+			//printf("Collsion Left\n");
+			this->Ball->move(3.f, 0.f);
+		}
+		else if (this->player->getPosition().x >= this->Ball->getPositionBall().x + 120.f && this->player->kick == false)
+		{
+			//printf("Collsion Right");
+			this->Ball->move(-3.f, 0.f);
+		}
+		
+		if (this->player->getPosition().x - 20.f <= this->Ball->getPositionBall().x && this->player->kick == true)
+		{
+			this->Ball->ballJump = 1;
+		}
+		else if (this->player->getPosition().x >= this->Ball->getPositionBall().x + 120.f && this->player->kick == true)\
+		{
+			this->Ball->ballJump = 2;
+		}
 	}
 
 }

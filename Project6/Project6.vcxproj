@@ -144,20 +144,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="BGCheer.cpp" />
+    <ClCompile Include="BGField.cpp" />
+    <ClCompile Include="BGWeather.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Player2.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Wallpaper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
+    <ClInclude Include="BGCheer.h" />
+    <ClInclude Include="BGField.h" />
+    <ClInclude Include="BGWeather.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Player2.h" />
+    <ClInclude Include="Wallpaper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

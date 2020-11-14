@@ -70,6 +70,10 @@ void ball::move(const float dirX, const float dirY)
 {
 	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 
+	//collision
+	if (this->collision == 1)
+		this->velocity = -this->velocity;
+
 	//acceletion
 	this->velocity.x += dirX * this->acceleration;
 
@@ -99,12 +103,31 @@ void ball::renderBall(sf::RenderTarget& target)
 
 void ball::updatePhysicsBall()
 {
-	//gravity
-	this->velocity.y += 1.0 * this->gravity;
-	if (std::abs(this->velocity.x) > this->velocityMaxY)
+	//jumping
+	if (this->jumping == true && this->gravityBool == false)
 	{
-		this->velocity.y = this->velocityMaxY * ((this->velocity.y < 0.f) ? -1.f : 1.f);
+		if (this->velocity.y < 0)
+			this->jumpingUp = false;
+		if (this->jumpingUp == true)
+			this->velocity.y -= 1.f;
+		else
+		{
+			//gravity
+			this->velocity.y += 1.0 * this->gravity;
+			if (std::abs(this->velocity.x) > this->velocityMaxY)
+				this->velocity.y = this->velocityMaxY * ((this->velocity.y < 0.f) ? -1.f : 1.f);
+		}
 	}
+	else
+		this->velocity.y += (1.0 * this->gravity);
+
+	if (this->gravityBool == true)
+		this->velocity.y += (1.0 * this->gravity);
+
+
+	//collision
+	if (this->collision == 1)
+		this->velocity.x = -(this->velocity.x + 2.f);
 
 	//decceleration
 	this->velocity *= this->drag;
@@ -120,4 +143,12 @@ void ball::updatePhysicsBall()
 
 void ball::updateMovementBall()
 {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LBracket))
+	{
+		this->move(-1.f, 0.f);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::RBracket))
+	{
+		this->move(1.f, 0.f);
+	}
 }

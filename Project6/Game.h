@@ -2,8 +2,7 @@
 #include "Player.h"
 #include "Player2.h"
 #include "Ball.h"
-#include "Collider.h"
-#include "Platform.h"
+#include "Wallpaper.h"
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
 #include<stdio.h>
@@ -16,7 +15,9 @@ private:
 	Player* player;
 	Player2* player2;
 	ball* Ball;
+	Wallpaper* wallpaper;
 
+	void initWallpaper();
 	void initWindow();
 	void initPlayer();
 	void initPlayer2();
@@ -30,6 +31,9 @@ public:
 
 	void update();
 	void render();
+
+	void renderWallpaper();
+	void updateWallpaper();
 
 	void renderPlayer();
 	void updatePlayer();

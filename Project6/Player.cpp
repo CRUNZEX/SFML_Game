@@ -56,6 +56,20 @@ Player::~Player()
 
 }
 
+void Player::jump()
+{
+	this->jumping = true;
+	this->jumpingUp = true;
+	this->gravityBool = true;
+}
+
+void Player::jumpBreak()
+{
+	this->jumping = false;
+	this->jumpingUp = false;
+	this->gravityBool = false;
+}
+
 const bool& Player::getAnimSwitch()
 {
 	bool anim_switch = this->animationSwitch;
@@ -195,14 +209,17 @@ void Player::updateMovement()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
 	{
 		this->animState = PLAYER_ANIMATION_STATES::KICK;
+		this->kick = true;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && this->jumping == false)
 	{
-		this->jumping = true;
+		/*this->jumping = true;
 		this->jumpingUp = true;
-		this->gravityBool = true;
+		this->gravityBool = true;*/
 		
+		this->jump();
+
 		this->velocity.y = -30.f;
 	}
 	

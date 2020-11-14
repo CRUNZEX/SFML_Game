@@ -3,9 +3,6 @@
 #include<SFML/System.hpp>
 #include<stdio.h>
 
-#include"Collider.h"
-#include"Platform.h"
-
 enum PLAYER2_ANIMATION_STATES { IDLE2 = 0, MOVING_LEFT2, MOVING_RIGHT2, JUMPING2, FALLING2, KICK2 };
 
 class Player2
