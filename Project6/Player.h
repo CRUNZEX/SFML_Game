@@ -32,7 +32,7 @@ private:
 	//Core
 	void initVariables();
 	void initTexture();
-	void initSpite();
+	void initSprite();
 	void initAnimation();
 	void initPhysics();
 

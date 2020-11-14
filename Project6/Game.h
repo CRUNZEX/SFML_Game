@@ -3,6 +3,8 @@
 #include "Player2.h"
 #include "Ball.h"
 #include "Wallpaper.h"
+#include "Goal.h"
+
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
 #include<stdio.h>
@@ -16,12 +18,17 @@ private:
 	Player2* player2;
 	ball* Ball;
 	Wallpaper* wallpaper;
+	Goal* goal;
 
 	void initWallpaper();
+
 	void initWindow();
+	
 	void initPlayer();
 	void initPlayer2();
 	void initBall();
+
+	void initGoal();
 
 public:
 	Game();
@@ -33,7 +40,8 @@ public:
 	void render();
 
 	void renderWallpaper();
-	void updateWallpaper();
+
+	void renderGoal();
 
 	void renderPlayer();
 	void updatePlayer();

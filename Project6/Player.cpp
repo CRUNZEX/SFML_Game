@@ -11,7 +11,7 @@ void Player::initTexture()
 		printf("ERROR::Picture player can't be load!");
 }
 
-void Player::initSpite()
+void Player::initSprite()
 {
 	this->sprite.setTexture(this->texture);
 	this->sprite.setScale(-1.f, 1.f);
@@ -44,7 +44,7 @@ Player::Player()
 {
 	this->initVariables();
 	this->initTexture();
-	this->initSpite();
+	this->initSprite();
 	this->initAnimation();
 	this->initPhysics();
 

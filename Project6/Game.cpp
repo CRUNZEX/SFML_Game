@@ -22,20 +22,31 @@ void Game::initBall()
 {
 	this->Ball = new ball();
 }
+void Game::initGoal()
+{
+	this->goal = new Goal();
+}
 Game::Game()
 {
 	this->initWindow();
+
 	this->initWallpaper();
+	
 	this->initPlayer();
 	this->initPlayer2();
 	this->initBall();
+
+	this->initGoal();
 }
 Game::~Game() 
 {
 	delete this->window;
+
 	delete this->player;
 	delete this->player2;
 	delete this->Ball;
+
+	delete this->goal;
 }
 
 void Game::run()
@@ -69,10 +80,15 @@ void Game::update()
 void Game::render()
 {
 	this->window->clear();
+
 	this->renderWallpaper();
+	
 	this->renderPlayer();
 	this->renderPlayer2();
 	this->renderBall();
+	
+	this->renderGoal();
+
 	this->window->display();
 }
 
@@ -81,9 +97,9 @@ void Game::renderWallpaper()
 	this->wallpaper->render(*this->window);
 }
 
-void Game::updateWallpaper()
+void Game::renderGoal()
 {
-
+	this->goal->render(*this->window);
 }
 
 void Game::renderPlayer()

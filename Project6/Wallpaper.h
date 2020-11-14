@@ -11,12 +11,15 @@
 #include "BGCheer.h"
 #include "BGField.h"
 
+#include "Goal.h"
+
 class Wallpaper
 {
 private:
 	BGWeather* BGweather;
 	BGCheer* BGcheer;
 	BGField* BGfield;
+	Goal* goal;
 
 	sf::Texture texture;
 
@@ -24,6 +27,8 @@ private:
 	void initWallpaper();
 	void initBGcheer();
 	void initBGfield();
+
+	void initGoal();
 
 public:
 	Wallpaper();

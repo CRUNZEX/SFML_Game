@@ -15,11 +15,18 @@ void Wallpaper::initBGfield()
 	this->BGfield = new BGField;
 }
 
+void Wallpaper::initGoal()
+{
+	this->goal = new Goal();
+}
+
 Wallpaper::Wallpaper()
 {
 	this->initBGfield();
 	this->initWallpaper();
 	this->initBGcheer();
+
+	this->initGoal();
 }
 
 Wallpaper::~Wallpaper()
@@ -32,4 +39,7 @@ void Wallpaper::render(sf::RenderTarget& target)
 	target.draw(this->BGfield->bg);
 	target.draw(this->BGweather->bg);
 	target.draw(this->BGcheer->bg);
+
+	//target.draw(this->goal->goal_backR);
+	//target.draw(this->goal->goal_frontR);
 }
