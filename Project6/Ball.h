@@ -6,7 +6,7 @@
 class ball
 {
 private:
-	sf::Sprite sprite;
+	sf::CircleShape sprite;
 	sf::Texture texture;
 
 	//Physics

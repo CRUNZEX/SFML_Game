@@ -12,7 +12,8 @@ void ball::initTexture()
 
 void ball::initsSpite()
 {
-	this->sprite.setTexture(this->texture);
+	this->sprite.setRadius(50);
+	this->sprite.setTexture(&this->texture);
 	this->sprite.setScale(0.5f, 0.5f);
 	this->sprite.setPosition(450, 300);
 }
