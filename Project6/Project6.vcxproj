@@ -150,6 +150,8 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Goal.cpp" />
+    <ClCompile Include="GoalBack.cpp" />
+    <ClCompile Include="GoalFront.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Player2.cpp" />
@@ -164,6 +166,8 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Goal.h" />
+    <ClInclude Include="GoalBack.h" />
+    <ClInclude Include="GoalFront.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Player2.h" />

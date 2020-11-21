@@ -4,6 +4,8 @@
 #include "Ball.h"
 #include "Wallpaper.h"
 #include "Goal.h"
+#include "GoalFront.h"
+#include "GoalBack.h"
 
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
@@ -19,6 +21,8 @@ private:
 	ball* Ball;
 	Wallpaper* wallpaper;
 	Goal* goal;
+	GoalFront* goalfront;
+	GoalBack* goalback;
 
 	void initWallpaper();
 
@@ -29,6 +33,8 @@ private:
 	void initBall();
 
 	void initGoal();
+	void initGoalFront();
+	void initGoalBack();
 
 public:
 	Game();
@@ -42,6 +48,8 @@ public:
 	void renderWallpaper();
 
 	void renderGoal();
+	void renderGoalFront();
+	void renderGoalBack();
 
 	void renderPlayer();
 	void updatePlayer();
@@ -54,4 +62,3 @@ public:
 	void renderBall();
 	void updateBall();
 };
-

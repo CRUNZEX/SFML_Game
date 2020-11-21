@@ -26,6 +26,14 @@ void Game::initGoal()
 {
 	this->goal = new Goal();
 }
+void Game::initGoalFront()
+{
+	this->goalfront = new GoalFront();
+}
+void Game::initGoalBack()
+{
+	this->goalback = new GoalBack();
+}
 Game::Game()
 {
 	this->initWindow();
@@ -36,7 +44,9 @@ Game::Game()
 	this->initPlayer2();
 	this->initBall();
 
-	this->initGoal();
+	//this->initGoal();
+	this->initGoalFront();
+	this->initGoalBack();
 }
 Game::~Game() 
 {
@@ -46,7 +56,9 @@ Game::~Game()
 	delete this->player2;
 	delete this->Ball;
 
-	delete this->goal;
+	//delete this->goal;
+	delete this->goalfront;
+	delete this->goalback;
 }
 
 void Game::run()
@@ -74,7 +86,6 @@ void Game::update()
 	this->updatePlayer2();
 	this->updateBall();
 	this->updateCollision();
-	
 }
 
 void Game::render()
@@ -87,7 +98,9 @@ void Game::render()
 	this->renderPlayer2();
 	this->renderBall();
 	
-	this->renderGoal();
+	//this->renderGoal();
+	this->renderGoalFront();
+	this->renderGoalBack();
 
 	this->window->display();
 }
@@ -100,6 +113,16 @@ void Game::renderWallpaper()
 void Game::renderGoal()
 {
 	this->goal->render(*this->window);
+}
+
+void Game::renderGoalFront()
+{
+	this->goalfront->render(*this->window);
+}
+
+void Game::renderGoalBack()
+{
+	this->goalback->render(*this->window);
 }
 
 void Game::renderPlayer()
@@ -198,6 +221,7 @@ void Game::updateCollision()
 
 	//collision
 
+	//Player1
 	if (this->player->getGlobalBounds().intersects(this->Ball->getGlobalBoundsBall()))
 	{
 		//printf("Player : %f     Ball : %f\n", this->player->getPosition().x, this->Ball->getPositionBall().x);
@@ -211,15 +235,17 @@ void Game::updateCollision()
 			//printf("Collsion Right");
 			this->Ball->move(-3.f, 0.f);
 		}
-		
-		if (this->player->getPosition().x - 20.f <= this->Ball->getPositionBall().x && this->player->kick == true)
-		{
-			this->Ball->ballJump = 1;
-		}
-		else if (this->player->getPosition().x >= this->Ball->getPositionBall().x + 120.f && this->player->kick == true)\
-		{
-			this->Ball->ballJump = 2;
-		}
+	}
+
+	//Player2
+	if (this->player2->getGlobalBounds().intersects(this->Ball->getGlobalBoundsBall()))
+	{
+		//printf("Player : %f     Ball : %f\n", this->player2->getPosition().x, this->Ball->getPositionBall().x);
+
+		if (this->player2->getPosition().x > this->Ball->getPositionBall().x + 20.f)
+			this->Ball->move(-3.f, 0.f);
+		else if (this->player2->getPosition().x < this->Ball->getPositionBall().x - 90.f)
+			this->Ball->move(3.f, 0.f);
 	}
 
 }
