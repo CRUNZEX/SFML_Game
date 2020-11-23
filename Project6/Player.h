@@ -11,6 +11,7 @@ enum PLAYER_ANIMATION_STATES {IDLE = 0, MOVING_LEFT, MOVING_RIGHT, JUMPING, FALL
 class Player
 {
 private:
+
 	sf::Sprite sprite;
 	sf::Texture texture;
 

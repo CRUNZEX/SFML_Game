@@ -1,52 +1,29 @@
 #include "Game.h"
 
-void Game::initWallpaper()
-{
-	this->wallpaper = new Wallpaper();
-}
 void Game::initWindow()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Game", sf::Style::Close | sf::Style::Titlebar);
 	this->window->setFramerateLimit(60);
 	this->window->setVerticalSyncEnabled(false);
-}
-void Game::initPlayer()
-{
+
+	//Wallpaper
+	this->wallpaper = new Wallpaper();
+	
+	//Player
 	this->player = new Player();
-}
-void Game::initPlayer2()
-{
 	this->player2 = new Player2();
-}
-void Game::initBall()
-{
+	
+	//Ball
 	this->Ball = new ball();
-}
-void Game::initGoal()
-{
+	
+	//Goal
 	this->goal = new Goal();
-}
-void Game::initGoalFront()
-{
 	this->goalfront = new GoalFront();
-}
-void Game::initGoalBack()
-{
 	this->goalback = new GoalBack();
 }
 Game::Game()
 {
 	this->initWindow();
-
-	this->initWallpaper();
-	
-	this->initPlayer();
-	this->initPlayer2();
-	this->initBall();
-
-	//this->initGoal();
-	this->initGoalFront();
-	this->initGoalBack();
 }
 Game::~Game() 
 {
@@ -92,42 +69,22 @@ void Game::render()
 {
 	this->window->clear();
 
-	this->renderWallpaper();
+	//Wallpaper
+	this->wallpaper->render(*this->window);
 	
-	this->renderPlayer();
-	this->renderPlayer2();
-	this->renderBall();
+	//Player
+	this->player->render(*this->window);
+	this->player2->render(*this->window);
+
+	//Ball
+	this->Ball->renderBall(*this->window);
 	
-	//this->renderGoal();
-	this->renderGoalFront();
-	this->renderGoalBack();
+	//Goal
+	//this->goal->render(*this->window);
+	this->goalfront->render(*this->window);
+	this->goalback->render(*this->window);
 
 	this->window->display();
-}
-
-void Game::renderWallpaper()
-{
-	this->wallpaper->render(*this->window);
-}
-
-void Game::renderGoal()
-{
-	this->goal->render(*this->window);
-}
-
-void Game::renderGoalFront()
-{
-	this->goalfront->render(*this->window);
-}
-
-void Game::renderGoalBack()
-{
-	this->goalback->render(*this->window);
-}
-
-void Game::renderPlayer()
-{
-	this->player->render(*this->window);
 }
 
 void Game::updatePlayer()
@@ -135,14 +92,14 @@ void Game::updatePlayer()
 	this->player->update();
 }
 
-void Game::renderPlayer2()
-{
-	this->player2->render(*this->window);
-}
-
 void Game::updatePlayer2()
 {
 	this->player2->update();
+}
+
+void Game::updateBall()
+{
+	this->Ball->updateBall();
 }
 
 void Game::updateCollision()
@@ -250,12 +207,3 @@ void Game::updateCollision()
 
 }
 
-void Game::renderBall()
-{
-	this->Ball->renderBall(*this->window);
-}
-
-void Game::updateBall()
-{
-	this->Ball->updateBall();
-}
