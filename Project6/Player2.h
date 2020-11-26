@@ -3,7 +3,7 @@
 #include<SFML/System.hpp>
 #include<stdio.h>
 
-enum PLAYER2_ANIMATION_STATES { IDLE2 = 0, MOVING_LEFT2, MOVING_RIGHT2, JUMPING2, FALLING2, KICK2 };
+enum PLAYER2_ANIMATION_STATES { IDLE2 = 0, MOVING_LEFT2, MOVING_RIGHT2, JUMPING2, FALLING2, KICK2, PUNCH2};
 
 class Player2
 {
@@ -18,7 +18,6 @@ private:
 	bool animationSwitch;
 
 	//Physics
-	sf::Vector2f velocity;
 	float velocityMax;
 	float velocityMin;
 	float acceleration;
@@ -27,6 +26,10 @@ private:
 	float gravity;
 	float velocityMaxY;
 	int jumping = 0;
+
+	//HP
+	int hpMax;
+	int hp;
 
 	//Core
 	void initVariables();
@@ -41,6 +44,19 @@ private:
 public:
 	Player2();
 	virtual ~Player2();
+
+	//physics
+	sf::Vector2f velocity;
+	bool kick = false;
+	bool punch = false;
+	
+	//HP
+	const int& HPget() const;
+	const int& HPgetMax() const;
+
+	void HPset(const int hp);
+	void HPlose(const int value);
+	bool die();
 
 	//accessors
 	const bool& getAnimSwitch();

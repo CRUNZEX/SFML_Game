@@ -3,11 +3,14 @@
 void Player2::initVariables()
 {
 	this->animState = PLAYER2_ANIMATION_STATES::IDLE2;
+
+	this->hpMax = 100;
+	this->hp = this->hpMax;
 }
 
 void Player2::initTexture()
 {
-	if (!this->texture.loadFromFile("Pictures/Player1.png"))
+	if (!this->texture.loadFromFile("Pictures/Player2.png"))
 		printf("ERROR:: Picture player can't be load");
 }
 
@@ -53,6 +56,36 @@ Player2::Player2()
 
 Player2::~Player2()
 {
+}
+
+const int& Player2::HPget() const
+{
+	return this->hp;
+}
+
+const int& Player2::HPgetMax() const
+{
+	return this->hpMax;
+}
+
+void Player2::HPset(const int hp)
+{
+	this->hp = hp;
+}
+
+void Player2::HPlose(const int value)
+{
+	this->hp -= value;
+	if (this->hp < 0)
+		this->hp = 0;
+}
+
+bool Player2::die()
+{
+	if (this->hp == 0)
+		return true;
+	else
+		return false;
 }
 
 const bool& Player2::getAnimSwitch()
@@ -192,10 +225,25 @@ void Player2::updateMovement()
 		this->animState = PLAYER2_ANIMATION_STATES::MOVING_RIGHT2;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
 	{
 		this->animState = PLAYER2_ANIMATION_STATES::KICK2;
+		this->kick = true;
 	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
+	{
+		this->animState = PLAYER2_ANIMATION_STATES::PUNCH2;
+		this->punch = true;
+	}
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+	{
+		this->kick = false;
+	}
+	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::B))
+	{
+		this->punch = false;
+	}
+
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I) && this->jumping2 == false)
 	{
@@ -242,6 +290,19 @@ void Player2::updateAnimation()
 			this->currentFrame.top = 200.f;
 			this->currentFrame.left += 100.f;
 			if (this->currentFrame.left >= 400.f)
+				this->currentFrame.left = 0;
+
+			this->animationTimer.restart();
+			this->sprite.setTextureRect(this->currentFrame);
+		}
+	}
+	else if (this->animState == PLAYER2_ANIMATION_STATES::PUNCH2)
+	{
+		if (this->animationTimer.getElapsedTime().asSeconds() >= 0.05f)
+		{
+			this->currentFrame.top = 300.f;
+			this->currentFrame.left += 100.f;
+			if (this->currentFrame.left >= 200.f)
 				this->currentFrame.left = 0;
 
 			this->animationTimer.restart();

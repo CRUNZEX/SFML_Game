@@ -21,9 +21,49 @@ void Game::initWindow()
 	this->goalfront = new GoalFront();
 	this->goalback = new GoalBack();
 }
+void Game::initGUI()
+{
+	//Player 1
+	//HP
+	this->playerHpBar.setSize(sf::Vector2f(300.f, 25.f));
+	this->playerHpBar.setFillColor(sf::Color::Red);
+	this->playerHpBar.setPosition(sf::Vector2f(20.f, 20.f));
+
+	this->playerHpBarBack = this->playerHpBar;
+	this->playerHpBarBack.setFillColor(sf::Color(25, 25, 25, 200));
+
+	//MP
+	this->playerMpBar.setSize(sf::Vector2f(250.f, 10.f));
+	this->playerMpBar.setFillColor(sf::Color::Blue);
+	this->playerMpBar.setPosition(sf::Vector2f(20.f, 50.f));
+
+	this->playerMpBarBack = this->playerMpBar;
+	this->playerMpBarBack.setFillColor(sf::Color(25, 25, 25, 200));
+
+	//Player 2
+	//HP
+	this->player2HpBar.setSize(sf::Vector2f(300.f, 25.f));
+	this->player2HpBar.setFillColor(sf::Color::Red);
+	this->player2HpBar.setPosition(sf::Vector2f(960.f, 20.f));
+
+	this->player2HpBarBack = this->player2HpBar;
+	this->player2HpBarBack.setFillColor(sf::Color(25, 25, 25, 200));
+
+	//MP
+	this->player2MpBar.setSize(sf::Vector2f(250.f, 10.f));
+	this->player2MpBar.setFillColor(sf::Color::Blue);
+	this->player2MpBar.setPosition(sf::Vector2f(1010.f, 50.f));
+
+	this->player2MpBarBack = this->player2MpBar;
+	this->player2MpBarBack.setFillColor(sf::Color(25, 25, 25, 200));
+}
+void Game::initHP()
+{
+}
 Game::Game()
 {
 	this->initWindow();
+	this->initGUI();
 }
 Game::~Game() 
 {
@@ -62,6 +102,9 @@ void Game::update()
 	this->updatePlayer();
 	this->updatePlayer2();
 	this->updateBall();
+
+	this->updateGUI();
+	/*this->action();*/
 	this->updateCollision();
 }
 
@@ -81,10 +124,38 @@ void Game::render()
 	
 	//Goal
 	//this->goal->render(*this->window);
-	this->goalfront->render(*this->window);
-	this->goalback->render(*this->window);
+	//this->goalfront->render(*this->window);
+	//this->goalback->render(*this->window);
 
+	this->renderGUI();
+	
 	this->window->display();
+}
+
+void Game::updateGUI()
+{
+	float hpPercent = static_cast<float>(this->player->HPget()) / this->player->HPgetMax();
+	this->playerHpBar.setSize(sf::Vector2f(300.f * hpPercent, this->playerHpBar.getSize().y));
+
+	float hpPercent2 = static_cast<float>(this->player2->HPget()) / this->player2->HPgetMax();
+	this->player2HpBar.setSize(sf::Vector2f(300.f * hpPercent2, this->player2HpBar.getSize().y));
+}
+
+void Game::renderGUI()
+{
+	//Player1
+	this->window->draw(this->playerHpBarBack);
+	this->window->draw(this->playerHpBar);
+
+	this->window->draw(this->playerMpBarBack);
+	this->window->draw(this->playerMpBar);
+
+	//Player2
+	this->window->draw(this->player2HpBarBack);
+	this->window->draw(this->player2HpBar);
+
+	this->window->draw(this->player2MpBarBack);
+	this->window->draw(this->player2MpBar);
 }
 
 void Game::updatePlayer()
@@ -95,6 +166,22 @@ void Game::updatePlayer()
 void Game::updatePlayer2()
 {
 	this->player2->update();
+}
+
+void Game::action()
+{
+	if (this->player->getGlobalBounds().intersects(this->player2->getGlobalBounds()) && this->player->kick == true)
+	{
+		printf("Kick\n");
+		this->player->kick = false;
+		this->player2->HPlose(1);
+	}
+	if (this->player2->getGlobalBounds().intersects(this->player->getGlobalBounds()) && this->player2->kick == true)
+	{
+		printf("Kick\n");
+		this->player2->kick = false;
+		this->player->HPlose(1);
+	}
 }
 
 void Game::updateBall()
@@ -130,7 +217,10 @@ void Game::updateCollision()
 		if (this->Ball->ballBounds < 5 && this->Ball->ballBounds >= 0)
 		{
 			this->Ball->ballBounds++;
-			this->Ball->velocity.y *= -1.5f;
+			this->Ball->velocity.y *= -1.2f;
+			this->Ball->velocity.x *= 1.2f;
+			if (this->Ball->ballBounds == 4)
+				this->Ball->ballstart = true;
 		}
 		/*else
 			this->Ball->ballBounds = 0;*/
@@ -146,7 +236,7 @@ void Game::updateCollision()
 	if (this->player->getPosition().x + this->player->getGlobalBounds().width > this->window->getSize().x + 100)
 	{
 		this->player->resetVelocityX();
-		this->player->setPosition( this->window->getSize().x - this->player->getGlobalBounds().width + 100, this->player->getPosition().y);
+		this->player->setPosition(this->window->getSize().x - this->player->getGlobalBounds().width + 100, this->player->getPosition().y);
 	}
 	if (this->player2->getPosition().x + this->player2->getGlobalBounds().width > this->window->getSize().x)
 	{
@@ -163,12 +253,12 @@ void Game::updateCollision()
 	if (this->player->getPosition().x + this->player->getGlobalBounds().width < 200)
 	{
 		this->player->resetVelocityX();
-		this->player->setPosition( 100, this->player->getPosition().y);
+		this->player->setPosition(100, this->player->getPosition().y);
 	}
 	if (this->player2->getPosition().x + this->player2->getGlobalBounds().width < 100)
 	{
 		this->player2->resetVelocityX();
-		this->player2->setPosition( 0, this->player2->getPosition().y);
+		this->player2->setPosition(0, this->player2->getPosition().y);
 	}
 	if (this->Ball->getPositionBall().x + this->Ball->getGlobalBoundsBall().width < 50)
 	{
@@ -179,31 +269,62 @@ void Game::updateCollision()
 	//collision
 
 	//Player1
-	if (this->player->getGlobalBounds().intersects(this->Ball->getGlobalBoundsBall()))
+	//if (this->Ball->getGlobalBoundsBall().intersects(this->player->getGlobalBounds()))
+	//{
+	//	printf("X :: Player : %f     Ball : %f\n", this->player->getPosition().x, this->Ball->getPositionBall().x);
+	//	if ((this->player->getPosition().x - 40.f <= this->Ball->getPositionBall().x || this->player->getPosition().x >= this->Ball->getPositionBall().x + 80.f) && this->player->kick == false)
+	//	{
+	//		//printf("Collsion Left\n");
+	//		if (this->player->dash == false)
+	//			this->Ball->velocity.x = (this->player->velocity.x <= 0) ? this->player->velocity.x - 10.f : this->player->velocity.x + 10.f;
+	//		else
+	//		{
+	//			this->Ball->ballBounds = 0;
+	//			this->Ball->velocity.y = -50.f;
+	//			this->Ball->velocity.x = (this->player->velocity.x <= 0) ? this->player->velocity.x * 30.f : this->player->velocity.x * 30.f;
+	//			
+	//		}
+	//	}
+	//	//else if (this->player->getPosition().x >= this->Ball->getPositionBall().x + 120.f && this->player->kick == false)
+	//	//{
+	//	//	//printf("Collsion Right");
+	//	//	this->Ball->move(-3.f, 0.f);
+	//	//}
+	//}
+
+	if (this->Ball->getGlobalBoundsBall().intersects(this->player->getHitboxLBounds()))
 	{
-		//printf("Player : %f     Ball : %f\n", this->player->getPosition().x, this->Ball->getPositionBall().x);
-		if (this->player->getPosition().x - 20.f <= this->Ball->getPositionBall().x && this->player->kick == false)
+		if (this->player->dash == false)
+			this->Ball->velocity.x = (this->player->velocity.x <= 0) ? this->player->velocity.x - 10.f : this->player->velocity.x + 10.f;
+		else
 		{
-			//printf("Collsion Left\n");
-			this->Ball->move(3.f, 0.f);
+			this->Ball->ballBounds = 0;
+			this->Ball->velocity.y = -50.f;
+			this->Ball->velocity.x = this->player->velocity.x * 20.f;
 		}
-		else if (this->player->getPosition().x >= this->Ball->getPositionBall().x + 120.f && this->player->kick == false)
+	}
+	else if (this->Ball->getGlobalBoundsBall().intersects(this->player->getHitboxRBounds()))
+	{
+		if (this->player->dash == false)
+			this->Ball->velocity.x = (this->player->velocity.x <= 0) ? this->player->velocity.x - 10.f : this->player->velocity.x + 10.f;
+		else
 		{
-			//printf("Collsion Right");
-			this->Ball->move(-3.f, 0.f);
+			this->Ball->ballBounds = 0;
+			this->Ball->velocity.y = -50.f;
+			this->Ball->velocity.x = this->player->velocity.x * 20.f;
 		}
 	}
 
 	//Player2
-	if (this->player2->getGlobalBounds().intersects(this->Ball->getGlobalBoundsBall()))
-	{
-		//printf("Player : %f     Ball : %f\n", this->player2->getPosition().x, this->Ball->getPositionBall().x);
+	//if (this->player2->getGlobalBounds().intersects(this->Ball->getGlobalBoundsBall()))
+	//{
+	//	//printf("Player : %f     Ball : %f\n", this->player2->getPosition().x, this->Ball->getPositionBall().x);
 
-		if (this->player2->getPosition().x > this->Ball->getPositionBall().x + 20.f)
-			this->Ball->move(-3.f, 0.f);
-		else if (this->player2->getPosition().x < this->Ball->getPositionBall().x - 90.f)
-			this->Ball->move(3.f, 0.f);
-	}
+	//	if (this->player2->getPosition().x > this->Ball->getPositionBall().x + 20.f)
+	//		this->Ball->move(-3.f, 0.f);
+	//	else if (this->player2->getPosition().x < this->Ball->getPositionBall().x - 90.f)
+	//		this->Ball->move(3.f, 0.f);
+	//}
 
 }
 

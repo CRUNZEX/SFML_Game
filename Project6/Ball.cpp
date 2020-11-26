@@ -2,6 +2,7 @@
 
 void ball::initVariable()
 {
+	this->player = new Player();
 }
 
 void ball::initTexture()
@@ -12,9 +13,9 @@ void ball::initTexture()
 
 void ball::initsSpite()
 {
-	this->sprite.setRadius(50);
+	this->sprite.setRadius(20);
 	this->sprite.setTexture(&this->texture);
-	this->sprite.setScale(0.5f, 0.5f);
+	this->sprite.setScale(1.f, 1.f);
 	this->sprite.setPosition(450, 300);
 }
 
@@ -23,8 +24,9 @@ void ball::initPhysics()
 	this->velocityMax = 20.f;
 	this->velocityMin = 1.f;
 	this->acceleration = 5.f;
-	this->drag = 0.9f;
-	this->gravity = 4.f;
+	this->dragX = 0.95f;
+	this->dragY = 0.9f;
+	this->gravity = 2.f;
 	this->velocityMaxY = 15.f;
 }
 
@@ -125,13 +127,13 @@ void ball::updatePhysicsBall()
 	if (this->gravityBool == true)
 		this->velocity.y += (1.0 * this->gravity);
 
-
 	//collision
 	if (this->collision == 1)
 		this->velocity.x = -(this->velocity.x + 2.f);
 
 	//decceleration
-	this->velocity *= this->drag;
+	this->velocity.x *= this->dragX;
+	this->velocity.y *= this->dragY;
 
 	//limit deceleration
 	if (std::abs(this->velocity.x) < this->velocityMin)
@@ -147,6 +149,7 @@ void ball::updateMovementBall()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LBracket))
 	{
 		this->move(-1.f, 0.f);
+		/*this->velocity.y = -30.f;*/
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::RBracket))
 	{

@@ -3,6 +3,9 @@
 void Player::initVariables()
 {
 	this->animState = PLAYER_ANIMATION_STATES::IDLE;
+
+	this->hpMax = 100;
+	this->hp = this->hpMax;
 }
 
 void Player::initTexture()
@@ -70,6 +73,36 @@ void Player::jumpBreak()
 	this->gravityBool = false;
 }
 
+const int& Player::HPget() const
+{
+	return this->hp;
+}
+
+const int& Player::HPgetMax() const
+{
+	return this->hpMax;
+}
+
+void Player::HPset(const int hp)
+{
+	this->hp = hp;
+}
+
+void Player::HPlose(const int value)
+{
+	this->hp -= value;
+	if (this->hp < 0)
+		this->hp = 0;
+}
+
+bool Player::die()
+{
+	if (this->hp == 0)
+		return true;
+	else
+		return false;
+}
+
 const bool& Player::getAnimSwitch()
 {
 	bool anim_switch = this->animationSwitch;
@@ -111,6 +144,11 @@ void Player::resetAnimationTimer()
 	this->animationSwitch = true;
 }
 
+const sf::FloatRect Player::getHitboxLBounds() const
+{
+	return this->hitboxL.getGlobalBounds();
+}
+
 void Player::move(const float dirX, const float dirY)
 {
 	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
@@ -132,6 +170,11 @@ void Player::move(const float dirX, const float dirY)
 
 }
 
+const sf::FloatRect Player::getHitboxRBounds() const
+{
+	return this->hitboxR.getGlobalBounds();
+}
+
 void Player::update()
 {
 	this->updateMovement();
@@ -141,13 +184,28 @@ void Player::update()
 
 void Player::render(sf::RenderTarget & target)
 {
-	target.draw(this->sprite);
+	
+	this->hitboxR.setOutlineColor(sf::Color::White);
+	this->hitboxR.setOutlineThickness(3);
+	this->hitboxR.setFillColor(sf::Color::Transparent);
+	this->hitboxR.setSize(sf::Vector2f(-30.f, 60.f));
+	this->hitboxR.setPosition(this->sprite.getPosition().x - 15, this->sprite.getPosition().y + 30);
+	target.draw(this->hitboxR);
 
+	this->hitboxL.setOutlineColor(sf::Color::White);
+	this->hitboxL.setOutlineThickness(3);
+	this->hitboxL.setFillColor(sf::Color::Transparent);
+	this->hitboxL.setSize(sf::Vector2f(30.f, 60.f));
+	this->hitboxL.setPosition(this->sprite.getPosition().x - 85, this->sprite.getPosition().y + 30);
+	target.draw(this->hitboxL);
+
+
+	target.draw(this->sprite);
+	
 	sf::CircleShape Circ;
 	Circ.setFillColor(sf::Color::Red);
 	Circ.setRadius(3.f);
 	Circ.setPosition(this->sprite.getPosition());
-
 	target.draw(Circ);
 }
 
@@ -196,20 +254,58 @@ void Player::updateMovement()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		this->gravityBool = true;
-		this->move(-1.f, 0.f);
 		this->animState = PLAYER_ANIMATION_STATES::MOVING_LEFT;
+		
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+		{
+			this->move(-5.f, 0.f);
+			//printf("True\n");
+			this->dash = true;
+		}
+		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+		{
+			this->move(-0.5f, 0.f);
+			//printf("False\n");
+			this->dash = false;
+		}
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		this->gravityBool = true;
-		this->move(1.f, 0.f);
 		this->animState = PLAYER_ANIMATION_STATES::MOVING_RIGHT;
+		
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+		{
+			this->move(5.f, 0.f);
+			//printf("True\n");
+			this->dash = true;
+		}
+		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+		{
+			this->move(0.5f, 0.f);
+			//printf("False\n");
+			this->dash = false;
+		}
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
 	{
 		this->animState = PLAYER_ANIMATION_STATES::KICK;
 		this->kick = true;
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	{
+		this->animState = PLAYER_ANIMATION_STATES::PUNCH;
+		this->punch = true;
+	}
+
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::T))
+	{
+		this->kick = false;
+	}
+	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	{
+		this->punch = false;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && this->jumping == false)
@@ -264,6 +360,20 @@ void Player::updateAnimation()
 			this->currentFrame.top = 200.f;
 			this->currentFrame.left += 100.f;
 			if (this->currentFrame.left >= 400.f)
+				this->currentFrame.left = 0;
+
+			this->animationTimer.restart();
+			this->sprite.setTextureRect(this->currentFrame);
+		}
+	}
+	else if (this->animState == PLAYER_ANIMATION_STATES::PUNCH)
+	{
+		if (this->animationTimer.getElapsedTime().asSeconds() >= 0.05f)
+		{
+			this->currentFrame.top =
+				300.f;
+			this->currentFrame.left += 100.f;
+			if (this->currentFrame.left >= 200.f)
 				this->currentFrame.left = 0;
 
 			this->animationTimer.restart();

@@ -25,7 +25,20 @@ private:
 	GoalFront* goalfront;
 	GoalBack* goalback;
 
+	//HP
+	sf::RectangleShape playerHpBar;
+	sf::RectangleShape playerHpBarBack;
+	sf::RectangleShape playerMpBar;
+	sf::RectangleShape playerMpBarBack;
+
+	sf::RectangleShape player2HpBar;
+	sf::RectangleShape player2HpBarBack;
+	sf::RectangleShape player2MpBar;
+	sf::RectangleShape player2MpBarBack;
+
 	void initWindow();
+	void initGUI();
+	void initHP();
 
 public:
 	Game();
@@ -38,9 +51,14 @@ public:
 	void update();
 	void render();
 
+	void updateGUI();
+	void renderGUI();
+
 	void updatePlayer();
 	void updatePlayer2();
 	
+	void action();
+
 	void updateBall();
 	
 	void updateCollision();

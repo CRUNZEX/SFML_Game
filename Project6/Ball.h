@@ -2,10 +2,13 @@
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
 #include<stdio.h>
+#include "Player.h"
 
 class ball
 {
 private:
+	Player* player;
+
 	sf::CircleShape sprite;
 	sf::Texture texture;
 
@@ -13,7 +16,8 @@ private:
 	float velocityMax;
 	float velocityMin;
 	float acceleration;
-	float drag;
+	float dragX;
+	float dragY;
 	float gravity;
 	float velocityMaxY;
 
@@ -33,6 +37,7 @@ public:
 	sf::Vector2f velocity;
 	int ballBounds = 0;
 	int ballJump = 0;
+	bool ballstart = false;
 
 	//jumping
 	bool jumping = false;
