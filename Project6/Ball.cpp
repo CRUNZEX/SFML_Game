@@ -24,9 +24,9 @@ void ball::initPhysics()
 	this->velocityMax = 20.f;
 	this->velocityMin = 1.f;
 	this->acceleration = 5.f;
-	this->dragX = 0.95f;
+	this->dragX = 0.955f;
 	this->dragY = 0.9f;
-	this->gravity = 2.f;
+	this->gravity = 1.5f;
 	this->velocityMaxY = 15.f;
 }
 
@@ -106,6 +106,8 @@ void ball::renderBall(sf::RenderTarget& target)
 
 void ball::updatePhysicsBall()
 {
+	//printf("x : %f	y : %f\n", this->velocity.x, this->velocity.y);
+
 	//jumping
 	if (this->jumping == true && this->gravityBool == false)
 	{

@@ -11,6 +11,11 @@ private:
 	sf::Sprite sprite;
 	sf::Texture texture;
 
+	//Hitbox
+	sf::RectangleShape hitboxL;
+	sf::RectangleShape hitboxR;
+	sf::RectangleShape hitboxHead;
+
 	//Animation
 	short animState;
 	sf::IntRect currentFrame;
@@ -49,6 +54,11 @@ public:
 	sf::Vector2f velocity;
 	bool kick = false;
 	bool punch = false;
+
+	bool dash = false;
+	bool dashPress = false;
+	bool dashDo = false;
+	int dashTime = 0;
 	
 	//HP
 	const int& HPget() const;
@@ -62,6 +72,11 @@ public:
 	const bool& getAnimSwitch();
 	const sf::FloatRect getGlobalBounds() const;
 	const sf::Vector2f getPosition() const;
+
+	//Hitbox
+	const sf::FloatRect getHitboxHeadBounds() const;
+	const sf::FloatRect getHitboxLBounds() const;
+	const sf::FloatRect getHitboxRBounds() const;
 
 	//modifier
 	void setPosition(const float x, const float y);

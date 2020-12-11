@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Player">
+      <UniqueIdentifier>{371d7cfd-446a-4c07-938b-35e096e7e9ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Player">
+      <UniqueIdentifier>{8c028794-5531-40d2-a4c9-fa30a0bf359a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Wallpaper">
+      <UniqueIdentifier>{f7714812-5125-4c9e-b853-630e23b29710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Wallpaper">
+      <UniqueIdentifier>{6d75271a-8f35-4b9c-99a7-0266d7630de5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object">
+      <UniqueIdentifier>{7ad44ce4-5499-459c-89b2-8e8df9e8d3ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object">
+      <UniqueIdentifier>{f01d323b-8b57-4f60-8cdd-fb20cfcc5f1a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -21,51 +39,45 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Ball.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Platform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
     <ClCompile Include="Player2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Wallpaper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BGWeather.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Player</Filter>
     </ClCompile>
     <ClCompile Include="BGCheer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Wallpaper</Filter>
     </ClCompile>
     <ClCompile Include="BGField.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Wallpaper</Filter>
+    </ClCompile>
+    <ClCompile Include="BGWeather.cpp">
+      <Filter>Source Files\Wallpaper</Filter>
+    </ClCompile>
+    <ClCompile Include="Wallpaper.cpp">
+      <Filter>Source Files\Wallpaper</Filter>
     </ClCompile>
     <ClCompile Include="Goal.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Object</Filter>
     </ClCompile>
     <ClCompile Include="GoalBack.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Object</Filter>
     </ClCompile>
     <ClCompile Include="GoalFront.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Source Files\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Ball.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
@@ -74,29 +86,35 @@
     <ClInclude Include="Platform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Player</Filter>
+    </ClInclude>
     <ClInclude Include="Player2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Wallpaper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BGWeather.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Player</Filter>
     </ClInclude>
     <ClInclude Include="BGCheer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Wallpaper</Filter>
     </ClInclude>
     <ClInclude Include="BGField.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Wallpaper</Filter>
+    </ClInclude>
+    <ClInclude Include="BGWeather.h">
+      <Filter>Header Files\Wallpaper</Filter>
+    </ClInclude>
+    <ClInclude Include="Wallpaper.h">
+      <Filter>Header Files\Wallpaper</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>Header Files\Object</Filter>
     </ClInclude>
     <ClInclude Include="Goal.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Object</Filter>
     </ClInclude>
     <ClInclude Include="GoalBack.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Object</Filter>
     </ClInclude>
     <ClInclude Include="GoalFront.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

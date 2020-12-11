@@ -12,20 +12,20 @@ void Goal::initGoal()
 {
 	//right
 	this->goal_backR.setTexture(this->texture_back);
-	this->goal_backR.setPosition(1200, 500);
+	this->goal_backR.setPosition(1230, 500);
 	this->goal_backR.setScale(1.5f, 1.5f);
 
 	this->goal_frontR.setTexture(this->texture_front);
-	this->goal_frontR.setPosition(1200, 490);
+	this->goal_frontR.setPosition(1230, 490);
 	this->goal_frontR.setScale(1.5f, 1.5f);
 
 	//left
 	this->goal_backL.setTexture(this->texture_back);
-	this->goal_backL.setPosition(100, 500);
+	this->goal_backL.setPosition(50, 500);
 	this->goal_backL.setScale(-1.5f, 1.5f);
 
 	this->goal_frontL.setTexture(this->texture_front);
-	this->goal_frontL.setPosition(100, 490);
+	this->goal_frontL.setPosition(50, 490);
 	this->goal_frontL.setScale(-1.5f, 1.5f);
 }
 
@@ -46,4 +46,14 @@ void Goal::render(sf::RenderTarget& target)
 
 	target.draw(this->goal_backL);
 	target.draw(this->goal_frontL);
+}
+
+const sf::FloatRect Goal::goalLBounds() const
+{
+	return this->hitboxL.getGlobalBounds();
+}
+
+const sf::FloatRect Goal::goalRBounds() const
+{
+	return this->hitboxR.getGlobalBounds();
 }

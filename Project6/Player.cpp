@@ -149,6 +149,11 @@ const sf::FloatRect Player::getHitboxLBounds() const
 	return this->hitboxL.getGlobalBounds();
 }
 
+const sf::FloatRect Player::getHitboxHeadBounds() const
+{
+	return this->hitboxHead.getGlobalBounds();
+}
+
 void Player::move(const float dirX, const float dirY)
 {
 	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
@@ -188,16 +193,23 @@ void Player::render(sf::RenderTarget & target)
 	this->hitboxR.setOutlineColor(sf::Color::White);
 	this->hitboxR.setOutlineThickness(3);
 	this->hitboxR.setFillColor(sf::Color::Transparent);
-	this->hitboxR.setSize(sf::Vector2f(-30.f, 60.f));
-	this->hitboxR.setPosition(this->sprite.getPosition().x - 15, this->sprite.getPosition().y + 30);
+	this->hitboxR.setSize(sf::Vector2f(-30.f, 70.f));
+	this->hitboxR.setPosition(this->sprite.getPosition().x - 15, this->sprite.getPosition().y + 20);
 	target.draw(this->hitboxR);
 
 	this->hitboxL.setOutlineColor(sf::Color::White);
 	this->hitboxL.setOutlineThickness(3);
 	this->hitboxL.setFillColor(sf::Color::Transparent);
-	this->hitboxL.setSize(sf::Vector2f(30.f, 60.f));
-	this->hitboxL.setPosition(this->sprite.getPosition().x - 85, this->sprite.getPosition().y + 30);
+	this->hitboxL.setSize(sf::Vector2f(30.f, 70.f));
+	this->hitboxL.setPosition(this->sprite.getPosition().x - 85, this->sprite.getPosition().y + 20);
 	target.draw(this->hitboxL);
+
+	this->hitboxHead.setOutlineColor(sf::Color::White);
+	this->hitboxHead.setOutlineThickness(3);
+	this->hitboxHead.setFillColor(sf::Color::Transparent);
+	this->hitboxHead.setSize(sf::Vector2f(70.f, 10.f));
+	this->hitboxHead.setPosition(this->sprite.getPosition().x - 85, this->sprite.getPosition().y);
+	target.draw(this->hitboxHead);
 
 
 	target.draw(this->sprite);
@@ -211,6 +223,7 @@ void Player::render(sf::RenderTarget & target)
 
 void Player::updatePhysics()
 {
+	//printf("V = %f\n", this->velocity.x);
 	//jumping
 	if (this->jumping == true && this->gravityBool == false)
 	{
@@ -256,17 +269,24 @@ void Player::updateMovement()
 		this->gravityBool = true;
 		this->animState = PLAYER_ANIMATION_STATES::MOVING_LEFT;
 		
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && this->dashTime <= 10)
 		{
 			this->move(-5.f, 0.f);
-			//printf("True\n");
 			this->dash = true;
+
+			this->dashTime++;
 		}
 		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 		{
 			this->move(-0.5f, 0.f);
-			//printf("False\n");
+
+			this->dashTime = 0;
 			this->dash = false;
+		}
+		else
+		{
+			this->dash = false;
+			this->move(-0.5f, 0.f);
 		}
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -274,17 +294,24 @@ void Player::updateMovement()
 		this->gravityBool = true;
 		this->animState = PLAYER_ANIMATION_STATES::MOVING_RIGHT;
 		
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && this->dashTime <= 10)
 		{
 			this->move(5.f, 0.f);
-			//printf("True\n");
 			this->dash = true;
+
+			this->dashTime++;
 		}
 		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 		{
 			this->move(0.5f, 0.f);
-			//printf("False\n");
+	
+			this->dashTime = 0;
 			this->dash = false;
+		}
+		else
+		{
+			this->dash = false;
+			this->move(0.5f, 0.f);
 		}
 	}
 

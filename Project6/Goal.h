@@ -10,6 +10,10 @@ private:
 	sf::Texture texture_back;
 	sf::Texture texture_front;
 
+	//Hitbox
+	sf::RectangleShape hitboxL;
+	sf::RectangleShape hitboxR;
+
 	//core
 	void initTexture();
 	void initGoal();
@@ -25,5 +29,8 @@ public:
 	sf::Sprite goal_frontL;
 
 	void render(sf::RenderTarget& target);
+
+	const sf::FloatRect goalLBounds() const;
+	const sf::FloatRect goalRBounds() const;
 };
 

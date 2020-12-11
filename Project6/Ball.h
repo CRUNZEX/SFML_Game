@@ -2,7 +2,11 @@
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
 #include<stdio.h>
+#include<math.h>
+
 #include "Player.h"
+
+#define PI 3.1415926535897932384626433832795
 
 class ball
 {

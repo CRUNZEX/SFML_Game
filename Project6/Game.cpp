@@ -115,6 +115,9 @@ void Game::render()
 	//Wallpaper
 	this->wallpaper->render(*this->window);
 	
+	//Goal
+	this->goalback->render(*this->window);
+	
 	//Player
 	this->player->render(*this->window);
 	this->player2->render(*this->window);
@@ -124,8 +127,7 @@ void Game::render()
 	
 	//Goal
 	//this->goal->render(*this->window);
-	//this->goalfront->render(*this->window);
-	//this->goalback->render(*this->window);
+	this->goalfront->render(*this->window);
 
 	this->renderGUI();
 	
@@ -295,36 +297,91 @@ void Game::updateCollision()
 	if (this->Ball->getGlobalBoundsBall().intersects(this->player->getHitboxLBounds()))
 	{
 		if (this->player->dash == false)
-			this->Ball->velocity.x = (this->player->velocity.x <= 0) ? this->player->velocity.x - 10.f : this->player->velocity.x + 10.f;
+		{
+			if (this->player->velocity.x != 0)
+				this->Ball->velocity.x = (this->player->velocity.x < 0) ? this->player->velocity.x - 10.f : this->player->velocity.x + 10.f;
+			else
+				this->Ball->velocity.x = -this->Ball->velocity.x;
+		}
 		else
 		{
 			this->Ball->ballBounds = 0;
 			this->Ball->velocity.y = -50.f;
-			this->Ball->velocity.x = this->player->velocity.x * 20.f;
+			this->Ball->velocity.x = this->player->velocity.x * 15.f;
 		}
 	}
 	else if (this->Ball->getGlobalBoundsBall().intersects(this->player->getHitboxRBounds()))
 	{
 		if (this->player->dash == false)
-			this->Ball->velocity.x = (this->player->velocity.x <= 0) ? this->player->velocity.x - 10.f : this->player->velocity.x + 10.f;
+		{
+			if (this->player->velocity.x != 0)
+				this->Ball->velocity.x = (this->player->velocity.x < 0) ? this->player->velocity.x - 10.f : this->player->velocity.x + 10.f;
+			else
+				this->Ball->velocity.x = -this->Ball->velocity.x;
+		}
 		else
 		{
 			this->Ball->ballBounds = 0;
 			this->Ball->velocity.y = -50.f;
-			this->Ball->velocity.x = this->player->velocity.x * 20.f;
+			this->Ball->velocity.x = this->player->velocity.x * 15.f;
 		}
+	}
+	else if (this->Ball->getGlobalBoundsBall().intersects(this->player->getHitboxHeadBounds()))
+	{
+		this->Ball->velocity.y = -30.f;
+		//this->Ball->velocity.x = (this->Ball->velocity.x <= 0) ? this->Ball->velocity.x + 20.f : this->Ball->velocity.x - 20.f;
 	}
 
 	//Player2
-	//if (this->player2->getGlobalBounds().intersects(this->Ball->getGlobalBoundsBall()))
-	//{
-	//	//printf("Player : %f     Ball : %f\n", this->player2->getPosition().x, this->Ball->getPositionBall().x);
+	if (this->Ball->getGlobalBoundsBall().intersects(this->player2->getHitboxLBounds()))
+	{
+		if (this->player2->dash == false)
+		{
+			if (this->player2->velocity.x != 0)
+				this->Ball->velocity.x = (this->player2->velocity.x < 0) ? this->player2->velocity.x - 10.f : this->player2->velocity.x + 10.f;
+			else
+				this->Ball->velocity.x = -this->Ball->velocity.x;
+		}
+		else
+		{
+			this->Ball->ballBounds = 0;
+			this->Ball->velocity.y = -50.f;
+			this->Ball->velocity.x = this->player2->velocity.x * 15.f;
+		}
+	}
+	else if (this->Ball->getGlobalBoundsBall().intersects(this->player2->getHitboxRBounds()))
+	{
+		if (this->player2->dash == false)
+		{
+			if (this->player2->velocity.x != 0)
+				this->Ball->velocity.x = (this->player2->velocity.x < 0) ? this->player2->velocity.x - 10.f : this->player2->velocity.x + 10.f;
+			else
+				this->Ball->velocity.x = -this->Ball->velocity.x;
+		}
+		else
+		{
+			this->Ball->ballBounds = 0;
+			this->Ball->velocity.y = -50.f;
+			this->Ball->velocity.x = this->player->velocity.x * 15.f;
+		}
+	}
+	else if (this->Ball->getGlobalBoundsBall().intersects(this->player2->getHitboxHeadBounds()))
+	{
+		this->Ball->velocity.y = -30.f;
+		//this->Ball->velocity.x = (this->Ball->velocity.x <= 0) ? this->Ball->velocity.x + 20.f : this->Ball->velocity.x - 20.f;
+	}
 
-	//	if (this->player2->getPosition().x > this->Ball->getPositionBall().x + 20.f)
-	//		this->Ball->move(-3.f, 0.f);
-	//	else if (this->player2->getPosition().x < this->Ball->getPositionBall().x - 90.f)
-	//		this->Ball->move(3.f, 0.f);
-	//}
+	//Player1 & Player2
+	/*if (this->player->getGlobalBounds().intersects(this->player2->getGlobalBounds()) && this->player->velocity.x >= this->player2->velocity.x && this->player2->velocity.x <= 0.f)
+	{
+		printf("1	Player : %f     Player2 : %f\n", this->player->velocity.x, this->player2->velocity.x);
+		this->player->setPosition(this->player2->getPosition().x, this->player->getPosition().y);
+	}*/
+	/*if (this->player2->getGlobalBounds().intersects(this->player->getGlobalBounds()) && this->player->velocity.x >= this->player2->velocity.x && this->player->velocity.x >= 0.f)
+	{
+		printf("2	Player : %f     Player2 : %f\n", this->player->velocity.x, this->player2->velocity.x);
+		this->player2->setPosition(this->player->getPosition().x, this->player2->getPosition().y);
+	}*/
 
 }
 

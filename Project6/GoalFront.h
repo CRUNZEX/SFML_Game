@@ -9,6 +9,10 @@ class GoalFront
 private:
 	sf::Texture textureFront;
 
+	//Hitbox
+	sf::RectangleShape hitboxL;
+	sf::RectangleShape hitboxR;
+
 	//Core
 	void initTexture();
 	void initGoalFront();
@@ -21,5 +25,9 @@ public:
 	sf::Sprite goal_frontL;
 
 	void render(sf::RenderTarget& target);
+	
+	//Hitbox
+	const sf::FloatRect getCrossbarRBounds() const;
+	const sf::FloatRect getCrossbarLBounds() const;
 };
 

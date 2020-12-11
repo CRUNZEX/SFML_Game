@@ -108,6 +108,21 @@ const sf::Vector2f Player2::getPosition() const
 	return this->sprite.getPosition();
 }
 
+const sf::FloatRect Player2::getHitboxHeadBounds() const
+{
+	return this->hitboxHead.getGlobalBounds();
+}
+
+const sf::FloatRect Player2::getHitboxLBounds() const
+{
+	return this->hitboxL.getGlobalBounds();
+}
+
+const sf::FloatRect Player2::getHitboxRBounds() const
+{
+	return this->hitboxR.getGlobalBounds();
+}
+
 void Player2::setPosition(const float x, const float y)
 {
 	this->sprite.setPosition(x, y);
@@ -157,6 +172,27 @@ void Player2::update()
 
 void Player2::render(sf::RenderTarget& target)
 {
+	this->hitboxR.setOutlineColor(sf::Color::White);
+	this->hitboxR.setOutlineThickness(3);
+	this->hitboxR.setFillColor(sf::Color::Transparent);
+	this->hitboxR.setSize(sf::Vector2f(30.f, 70.f));
+	this->hitboxR.setPosition(this->sprite.getPosition().x + 15, this->sprite.getPosition().y + 20);
+	target.draw(this->hitboxR);
+
+	this->hitboxL.setFillColor(sf::Color::White);
+	this->hitboxL.setOutlineThickness(3);
+	this->hitboxL.setFillColor(sf::Color::Transparent);
+	this->hitboxL.setSize(sf::Vector2f(30.f, 70.f));
+	this->hitboxL.setPosition(this->sprite.getPosition().x + 55, this->sprite.getPosition().y + 20);
+	target.draw(this->hitboxL);
+
+	this->hitboxHead.setOutlineColor(sf::Color::White);
+	this->hitboxHead.setOutlineThickness(3);
+	this->hitboxHead.setFillColor(sf::Color::Transparent);
+	this->hitboxHead.setSize(sf::Vector2f(70.f, 10.f));
+	this->hitboxHead.setPosition(this->sprite.getPosition().x + 15, this->getPosition().y);
+	target.draw(this->hitboxHead);
+
 	target.draw(this->sprite);
 
 	sf::CircleShape Circ;
@@ -216,13 +252,53 @@ void Player2::updateMovement()
 	//keyboard
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
 	{
-		this->move(-1.f, 0.f);
+		this->gravityBool2 = true;
 		this->animState = PLAYER2_ANIMATION_STATES::MOVING_LEFT2;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift) && this->dashTime <= 10)
+		{
+			this->move(-5.f, 0.f);
+			this->dash = true;
+		
+			this->dashTime++;
+		}
+		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+		{
+			this->move(-0.5f, 0.f);
+
+			this->dashTime = 0;
+			this->dash = false;
+		}
+		else
+		{
+			this->dash = false;
+			this->move(-0.5f, 0.f);
+		}
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
 	{
-		this->move(1.f, 0.f);
+		this->gravityBool2 = true;
 		this->animState = PLAYER2_ANIMATION_STATES::MOVING_RIGHT2;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift) && this->dashTime <= 10)
+		{
+			this->move(5.f, 0.f);
+			this->dash = true;
+
+			this->dashTime++;
+		}
+		else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+		{
+			this->move(0.5f, 0.f);
+
+			this->dashTime = 0;
+			this->dash = false;
+		}
+		else
+		{
+			this->dash = false;
+			this->move(0.5f, 0.f);
+		}
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))

@@ -57,7 +57,11 @@ public:
 	sf::Vector2f velocity;
 	bool kick = false;
 	bool punch = false;
+
 	bool dash = false;
+	bool dashPress = false;
+	bool dashDo = false;
+	int dashTime = 0;
 
 	//jump
 	void jump();
@@ -80,6 +84,7 @@ public:
 	const sf::Vector2f getPosition() const;
 
 	//Hitbox
+	const sf::FloatRect getHitboxHeadBounds() const;
 	const sf::FloatRect getHitboxLBounds() const;
 	const sf::FloatRect getHitboxRBounds() const;
 

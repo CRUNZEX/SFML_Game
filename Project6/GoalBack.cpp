@@ -10,13 +10,13 @@ void GoalBack::initGoalBack()
 {
 	//left
 	this->goal_backL.setTexture(this->textureBack);
-	this->goal_backL.setPosition(100, 500);
-	this->goal_backL.setScale(-1.5f, 1.5f);
+	this->goal_backL.setPosition(55, 450);
+	this->goal_backL.setScale(-2.f, 2.f);
 
 	//right
 	this->goal_backR.setTexture(this->textureBack);
-	this->goal_backR.setPosition(1200, 500);
-	this->goal_backR.setScale(1.5f, 1.5f);
+	this->goal_backR.setPosition(1225, 450);
+	this->goal_backR.setScale(2.f, 2.f);
 }
 
 GoalBack::GoalBack()
