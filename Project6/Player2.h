@@ -11,11 +11,6 @@ private:
 	sf::Sprite sprite;
 	sf::Texture texture;
 
-	//Hitbox
-	sf::RectangleShape hitboxL;
-	sf::RectangleShape hitboxR;
-	sf::RectangleShape hitboxHead;
-
 	//Animation
 	short animState;
 	sf::IntRect currentFrame;
@@ -59,6 +54,10 @@ public:
 	bool dashPress = false;
 	bool dashDo = false;
 	int dashTime = 0;
+
+	//Keyboard
+	bool keyJ = false;
+	bool keyL = false;
 	
 	//HP
 	const int& HPget() const;
@@ -74,6 +73,10 @@ public:
 	const sf::Vector2f getPosition() const;
 
 	//Hitbox
+	sf::RectangleShape hitboxL;
+	sf::RectangleShape hitboxR;
+	sf::RectangleShape hitboxHead;
+
 	const sf::FloatRect getHitboxHeadBounds() const;
 	const sf::FloatRect getHitboxLBounds() const;
 	const sf::FloatRect getHitboxRBounds() const;

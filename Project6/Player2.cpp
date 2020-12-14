@@ -175,15 +175,15 @@ void Player2::render(sf::RenderTarget& target)
 	this->hitboxR.setOutlineColor(sf::Color::White);
 	this->hitboxR.setOutlineThickness(3);
 	this->hitboxR.setFillColor(sf::Color::Transparent);
-	this->hitboxR.setSize(sf::Vector2f(30.f, 70.f));
-	this->hitboxR.setPosition(this->sprite.getPosition().x + 15, this->sprite.getPosition().y + 20);
+	this->hitboxR.setSize(sf::Vector2f(-30.f, 70.f));
+	this->hitboxR.setPosition(this->sprite.getPosition().x + 85, this->sprite.getPosition().y + 20);
 	target.draw(this->hitboxR);
 
 	this->hitboxL.setFillColor(sf::Color::White);
 	this->hitboxL.setOutlineThickness(3);
 	this->hitboxL.setFillColor(sf::Color::Transparent);
 	this->hitboxL.setSize(sf::Vector2f(30.f, 70.f));
-	this->hitboxL.setPosition(this->sprite.getPosition().x + 55, this->sprite.getPosition().y + 20);
+	this->hitboxL.setPosition(this->sprite.getPosition().x + 15, this->sprite.getPosition().y + 20);
 	target.draw(this->hitboxL);
 
 	this->hitboxHead.setOutlineColor(sf::Color::White);
@@ -199,8 +199,19 @@ void Player2::render(sf::RenderTarget& target)
 	Circ.setFillColor(sf::Color::Red);
 	Circ.setRadius(3.f);
 	Circ.setPosition(this->sprite.getPosition());
-
 	target.draw(Circ);
+
+	sf::CircleShape CircHitboxL;
+	CircHitboxL.setFillColor(sf::Color::Magenta);
+	CircHitboxL.setRadius(3.f);
+	CircHitboxL.setPosition(this->hitboxL.getPosition());
+	target.draw(CircHitboxL);
+
+	sf::CircleShape CircHitboxR;
+	CircHitboxR.setFillColor(sf::Color::Magenta);
+	CircHitboxR.setRadius(3.f);
+	CircHitboxR.setPosition(this->hitboxR.getPosition());
+	target.draw(CircHitboxR);
 }
 
 void Player2::updatePhysics()
@@ -252,6 +263,7 @@ void Player2::updateMovement()
 	//keyboard
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
 	{
+		this->keyJ = true;
 		this->gravityBool2 = true;
 		this->animState = PLAYER2_ANIMATION_STATES::MOVING_LEFT2;
 
@@ -277,6 +289,7 @@ void Player2::updateMovement()
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
 	{
+		this->keyL = true;
 		this->gravityBool2 = true;
 		this->animState = PLAYER2_ANIMATION_STATES::MOVING_RIGHT2;
 
@@ -300,6 +313,11 @@ void Player2::updateMovement()
 			this->move(0.5f, 0.f);
 		}
 	}
+
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::J))
+		this->keyJ = false;
+	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::L))
+		this->keyL = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
 	{

@@ -15,9 +15,6 @@ private:
 	sf::Texture texture;
 
 	//Hitbox
-	sf::RectangleShape hitboxL;
-	sf::RectangleShape hitboxR;
-	sf::RectangleShape hitboxHead;
 
 	//Animation
 	short animState;
@@ -72,6 +69,10 @@ public:
 	bool jumpingUp = false;
 	bool gravityBool = false;
 
+	//Keyboard
+	bool keyD = false;
+	bool keyA = false;
+
 	//HP
 	const int& HPget() const;
 	const int& HPgetMax() const;
@@ -86,6 +87,10 @@ public:
 	const sf::Vector2f getPosition() const;
 
 	//Hitbox
+	sf::RectangleShape hitboxL;
+	sf::RectangleShape hitboxR;
+	sf::RectangleShape hitboxHead;
+
 	const sf::FloatRect getHitboxHeadBounds() const;
 	const sf::FloatRect getHitboxLBounds() const;
 	const sf::FloatRect getHitboxRBounds() const;

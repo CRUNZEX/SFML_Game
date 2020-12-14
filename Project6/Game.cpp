@@ -490,6 +490,7 @@ void Game::updateCollision()
 	}
 
 	//Player1 & Player2
+
 	/*if (this->player->getGlobalBounds().intersects(this->player2->getGlobalBounds()) && this->player->velocity.x >= this->player2->velocity.x && this->player->velocity.x >= 0.f)
 	{
 		printf("1	Player : %f     Player2 : %f\n", this->player->velocity.x, this->player2->velocity.x);
@@ -501,13 +502,56 @@ void Game::updateCollision()
 		this->player2->setPosition(this->player->getPosition().x, this->player2->getPosition().y);
 	}*/
 
-	/*if (this->player->getHitboxRBounds().intersects(this->player2->getHitboxLBounds()))
+	//if (this->player->getHitboxRBounds().intersects(this->player2->getHitboxLBounds()))
+	//{
+	//	//if (this->player->velocity.x != 0 && (this->player->keyD == true || this->player->keyA == true)) //Player 1 Push
+	//	if (this->player->keyA == true || this->player->keyD == true)
+	//	{
+	//		printf("Player 1\n");
+	//		this->player2->setPosition(this->player->hitboxR.getPosition().x - 10, this->player2->getPosition().y);
+	//		this->player->velocity.x -= (this->player->velocity.x <= 0) ? -this->player->velocity.x : this->player->velocity.x;
+	//	}
+	//	else if (this->player2->keyJ == true || this->player2->keyL == true)
+	//	{
+	//		printf("Player 2\n");
+	//		this->player->setPosition(this->player2->hitboxL.getPosition().x + 10, this->player->getPosition().y);
+	//		this->player2->velocity.x -= (this->player2->velocity.x >= 0) ? -this->player2->velocity.x * 0.5 : this->player2->velocity.x * 0.5;
+	//	}
+
+	//	if ((this->player->keyA == true || this->player->keyD == true) && (this->player2->keyJ == true || this->player2->keyL == true))
+	//	{
+	//		printf("double\n");
+	//		this->player->setPosition(this->player2->hitboxL.getPosition().x + 10, this->player->getPosition().y);
+	//		this->player->velocity.x = 0.f;
+	//		this->player2->velocity.x = 0.f;
+	//	}
+	//}
+
+	if (this->player->getHitboxRBounds().intersects(this->player2->getHitboxLBounds()))
 	{
-		this->player->collisionPlayer = true;
+		if (this->player->velocity.x != 0) //Player 1 Push
+		{
+			this->player2->setPosition(this->player->hitboxR.getPosition().x - 10, this->player2->getPosition().y);
+			this->player->velocity.x -= (this->player->velocity.x <= 0) ? -this->player->velocity.x : this->player->velocity.x;
+		}
+		else
+		{
+			this->player->setPosition(this->player2->hitboxL.getPosition().x + 10, this->player->getPosition().y);
+			this->player2->velocity.x -= (this->player2->velocity.x >= 0) ? -this->player2->velocity.x * 0.5 : this->player2->velocity.x * 0.5;
+		}
 	}
-	else
+	if (this->player->getHitboxLBounds().intersects(this->player2->getHitboxRBounds()))
 	{
-		this->player->collisionPlayer = false;
-	}*/
+		if (this->player->velocity.x != 0)
+		{
+			this->player2->setPosition(this->player->hitboxL.getPosition().x - 90, this->player2->getPosition().y);
+			this->player->velocity.x -= (this->player->velocity.x >= 0) ? -this->player->velocity.x : this->player->velocity.x;
+		}
+		else
+		{
+			this->player->setPosition(this->player2->hitboxL.getPosition().x + 160, this->player->getPosition().y);
+			this->player2->velocity.x -= (this->player2->velocity.x <= 0) ? -this->player2->velocity.x * 0.5 : this->player2->velocity.x * 0.5;
+		}
+	}
 }
 

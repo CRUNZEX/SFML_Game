@@ -219,6 +219,18 @@ void Player::render(sf::RenderTarget & target)
 	Circ.setRadius(3.f);
 	Circ.setPosition(this->sprite.getPosition());
 	target.draw(Circ);
+
+	sf::CircleShape CircHitboxL;
+	CircHitboxL.setFillColor(sf::Color::Magenta);
+	CircHitboxL.setRadius(3.f);
+	CircHitboxL.setPosition(this->hitboxL.getPosition());
+	target.draw(CircHitboxL);
+
+	sf::CircleShape CircHitboxR;
+	CircHitboxR.setFillColor(sf::Color::Magenta);
+	CircHitboxR.setRadius(3.f);
+	CircHitboxR.setPosition(this->hitboxR.getPosition());
+	target.draw(CircHitboxR);
 }
 
 void Player::updatePhysics()
@@ -266,6 +278,7 @@ void Player::updateMovement()
 	//Keyboard
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
+		this->keyA = true;
 		this->gravityBool = true;
 		this->animState = PLAYER_ANIMATION_STATES::MOVING_LEFT;
 
@@ -314,6 +327,11 @@ void Player::updateMovement()
 			this->move(0.5f, 0.f);
 		}
 	}
+
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		this->keyA = false;
+	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		this->keyD = false;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
 	{
