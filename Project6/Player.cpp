@@ -268,7 +268,7 @@ void Player::updateMovement()
 	{
 		this->gravityBool = true;
 		this->animState = PLAYER_ANIMATION_STATES::MOVING_LEFT;
-		
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && this->dashTime <= 10)
 		{
 			this->move(-5.f, 0.f);

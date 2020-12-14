@@ -16,7 +16,7 @@ void ball::initsSpite()
 	this->sprite.setRadius(20);
 	this->sprite.setTexture(&this->texture);
 	this->sprite.setScale(1.f, 1.f);
-	this->sprite.setPosition(450, 300);
+	this->sprite.setPosition(640, 300);
 }
 
 void ball::initPhysics()
@@ -107,6 +107,11 @@ void ball::renderBall(sf::RenderTarget& target)
 void ball::updatePhysicsBall()
 {
 	//printf("x : %f	y : %f\n", this->velocity.x, this->velocity.y);
+
+	//this->rotation = this->velocity.x;
+
+	//printf("%d\n", this->rotation);
+	//this->sprite.setRotation(this->rotation);
 
 	//jumping
 	if (this->jumping == true && this->gravityBool == false)

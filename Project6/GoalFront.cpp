@@ -37,9 +37,32 @@ void GoalFront::render(sf::RenderTarget& target)
 	this->hitboxL.setOutlineColor(sf::Color::White);
 	this->hitboxL.setOutlineThickness(3);
 	this->hitboxL.setFillColor(sf::Color::Transparent);
-	this->hitboxL.setSize(sf::Vector2f(-20.f, 20.f));
-	this->hitboxL.setPosition(this->goal_frontL.getPosition().x, this->goal_frontL.getPosition().y);
+	this->hitboxL.setSize(sf::Vector2f(-80.f, 10.f));
+	this->hitboxL.setPosition(this->goal_frontL.getPosition().x - 25, this->goal_frontL.getPosition().y + 10);
 	target.draw(this->hitboxL);
+
+	this->hitboxR.setOutlineColor(sf::Color::White);
+	this->hitboxR.setOutlineThickness(3);
+	this->hitboxR.setFillColor(sf::Color::Transparent);
+	this->hitboxR.setSize(sf::Vector2f(80.f, 10.f));
+	this->hitboxR.setPosition(this->goal_frontR.getPosition().x + 25, this->goal_frontR.getPosition().y + 10);
+	target.draw(this->hitboxR);
+
+	this->crossbarL.setOutlineColor(sf::Color::White);
+	this->crossbarL.setOutlineThickness(3);
+	this->crossbarL.setFillColor(sf::Color::Transparent);
+	this->crossbarL.setSize(sf::Vector2f(-40.f, 10.f));
+	this->crossbarL.setRotation(-50);
+	this->crossbarL.setPosition(this->goal_frontL.getPosition().x - 15, this->goal_frontL.getPosition().y + 10);
+	target.draw(this->crossbarL);
+
+	this->crossbarR.setOutlineColor(sf::Color::White);
+	this->crossbarR.setOutlineThickness(3);
+	this->crossbarR.setFillColor(sf::Color::Transparent);
+	this->crossbarR.setSize(sf::Vector2f(40.f, 10.f));
+	this->crossbarR.setRotation(50);
+	this->crossbarR.setPosition(this->goal_frontR.getPosition().x + 15, this->goal_frontR.getPosition().y + 10);
+	target.draw(this->crossbarR);
 
 	sf::CircleShape CircL;
 	CircL.setFillColor(sf::Color::Red);
@@ -56,10 +79,20 @@ void GoalFront::render(sf::RenderTarget& target)
 
 const sf::FloatRect GoalFront::getCrossbarRBounds() const
 {
-	return this->hitboxR.getGlobalBounds();
+	return this->crossbarR.getGlobalBounds();
 }
 
 const sf::FloatRect GoalFront::getCrossbarLBounds() const
+{
+	return this->crossbarL.getGlobalBounds();
+}
+
+const sf::FloatRect GoalFront::getHitboxRBounds() const
+{
+	return this->hitboxR.getGlobalBounds();
+}
+
+const sf::FloatRect GoalFront::getHitboxLBounds() const
 {
 	return this->hitboxL.getGlobalBounds();
 }

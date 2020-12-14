@@ -60,10 +60,36 @@ void Game::initGUI()
 void Game::initHP()
 {
 }
+void Game::initText()
+{
+	this->Font.loadFromFile("Pictures/Font.ttf");
+
+	//clock
+	this->Time.setFont(this->Font);
+	this->Time.setCharacterSize(100);
+	this->Time.setPosition(640, 50);
+	this->Time.setOutlineColor(sf::Color::Black);
+	this->Time.setOutlineThickness(5);
+
+	//score
+	this->score1.setFont(this->Font);
+	this->score1.setCharacterSize(60);
+	this->score1.setPosition(500, 50);
+	this->score1.setOutlineColor(sf::Color::Black);
+	this->score1.setOutlineThickness(5);
+	
+	this->score2.setFont(this->Font);
+	this->score2.setCharacterSize(60);
+	this->score2.setPosition(780, 50);
+	this->score2.setOutlineColor(sf::Color::Black);
+	this->score2.setOutlineThickness(5);
+}
 Game::Game()
 {
 	this->initWindow();
 	this->initGUI();
+	this->initHP();
+	this->initText();
 }
 Game::~Game() 
 {
@@ -105,6 +131,7 @@ void Game::update()
 
 	this->updateGUI();
 	/*this->action();*/
+	this->updateText();
 	this->updateCollision();
 }
 
@@ -130,6 +157,8 @@ void Game::render()
 	this->goalfront->render(*this->window);
 
 	this->renderGUI();
+
+	this->renderText();
 	
 	this->window->display();
 }
@@ -158,6 +187,42 @@ void Game::renderGUI()
 
 	this->window->draw(this->player2MpBarBack);
 	this->window->draw(this->player2MpBar);
+}
+
+void Game::updateText()
+{
+	std::stringstream timeText;
+ 	timeText << this->timeCount;
+	
+	this->Time.setString(timeText.str());
+
+	if (this->timeClock.getElapsedTime().asSeconds() >= 1.f)
+	{
+		if (this->timeCount <= 59.f)
+			this->timeCount++;
+		this->timeClock.restart();
+
+		//Position
+		if (this->timeCount >= 10.f)
+			this->Time.setPosition(620, 50);
+	}
+
+	//Score
+	std::stringstream scoreText1;
+	std::stringstream scoreText2;
+
+	scoreText1 << this->scorePlayer1;
+	scoreText2 << this->scorePlayer2;
+
+	this->score1.setString(scoreText1.str());
+	this->score2.setString(scoreText2.str());
+}
+
+void Game::renderText()
+{
+	this->window->draw(this->Time);
+	this->window->draw(this->score1);
+	this->window->draw(this->score2);
 }
 
 void Game::updatePlayer()
@@ -268,6 +333,59 @@ void Game::updateCollision()
 		this->Ball->setPositionBall(0, this->Ball->getPositionBall().y);
 	}
 
+	//Goal
+	
+	//Left
+	if (this->goalfront->getHitboxLBounds().intersects(this->Ball->getGlobalBoundsBall()))
+	{
+		if (this->Ball->ballBounds < 5 && this->Ball->ballBounds >= 0)
+		{
+			this->Ball->ballBounds++;
+			this->Ball->velocity.y *= -1.2f;
+			this->Ball->velocity.x *= 1.2f;
+			if (this->Ball->ballBounds == 4)
+				this->Ball->ballstart = true;
+		}
+	}
+	if (this->goalfront->getCrossbarLBounds().intersects(this->Ball->getGlobalBoundsBall()))
+	{
+		this->Ball->velocity.x = -this->Ball->velocity.x;
+	}
+
+	//Right
+	if (this->goalfront->getHitboxRBounds().intersects(this->Ball->getGlobalBoundsBall()))
+	{
+		if (this->Ball->ballBounds < 5 && this->Ball->ballBounds >= 0)
+		{
+			this->Ball->ballBounds++;
+			this->Ball->velocity.y *= -1.2f;
+			this->Ball->velocity.x *= 1.2f;
+			if (this->Ball->ballBounds == 4)
+				this->Ball->ballstart = true;
+		}
+	}
+	if (this->goalfront->getHitboxLBounds().intersects(this->Ball->getGlobalBoundsBall()))
+	{
+		this->Ball->velocity.x = -this->Ball->velocity.x;
+	}
+
+	//score
+	if (this->goalback->goalLBounds().intersects(this->Ball->getGlobalBoundsBall()))
+	{
+		this->scorePlayer2++;
+		this->Ball->velocity.x = 10.f;
+		this->Ball->velocity.y = 0.f;
+		this->Ball->setPositionBall(450, 300);
+	}
+	if (this->goalback->goalRBounds().intersects(this->Ball->getGlobalBoundsBall()))
+	{
+		this->scorePlayer1++;
+		this->Ball->velocity.x = -10.f;
+		this->Ball->velocity.y = 0.f;
+		this->Ball->setPositionBall(450, 300);
+	}
+	
+
 	//collision
 
 	//Player1
@@ -287,11 +405,11 @@ void Game::updateCollision()
 	//			
 	//		}
 	//	}
-	//	//else if (this->player->getPosition().x >= this->Ball->getPositionBall().x + 120.f && this->player->kick == false)
-	//	//{
-	//	//	//printf("Collsion Right");
-	//	//	this->Ball->move(-3.f, 0.f);
-	//	//}
+	//	else if (this->player->getPosition().x >= this->Ball->getPositionBall().x + 120.f && this->player->kick == false)
+	//	{
+	//		//printf("Collsion Right");
+	//		this->Ball->move(-3.f, 0.f);
+	//	}
 	//}
 
 	if (this->Ball->getGlobalBoundsBall().intersects(this->player->getHitboxLBounds()))
@@ -306,7 +424,7 @@ void Game::updateCollision()
 		else
 		{
 			this->Ball->ballBounds = 0;
-			this->Ball->velocity.y = -50.f;
+			this->Ball->velocity.y = (this->player->velocity.x <= 0) ? this->player->velocity.x * 8.f : -(this->player->velocity.x * 8.f);
 			this->Ball->velocity.x = this->player->velocity.x * 15.f;
 		}
 	}
@@ -322,13 +440,13 @@ void Game::updateCollision()
 		else
 		{
 			this->Ball->ballBounds = 0;
-			this->Ball->velocity.y = -50.f;
+			this->Ball->velocity.y = (this->player->velocity.x <= 0) ? this->player->velocity.x * 8.f : -(this->player->velocity.x * 8.f);
 			this->Ball->velocity.x = this->player->velocity.x * 15.f;
 		}
 	}
 	else if (this->Ball->getGlobalBoundsBall().intersects(this->player->getHitboxHeadBounds()))
 	{
-		this->Ball->velocity.y = -30.f;
+		this->Ball->velocity.y *= -2.0f;
 		//this->Ball->velocity.x = (this->Ball->velocity.x <= 0) ? this->Ball->velocity.x + 20.f : this->Ball->velocity.x - 20.f;
 	}
 
@@ -367,21 +485,29 @@ void Game::updateCollision()
 	}
 	else if (this->Ball->getGlobalBoundsBall().intersects(this->player2->getHitboxHeadBounds()))
 	{
-		this->Ball->velocity.y = -30.f;
+		this->Ball->velocity.y *= -2.0f;
 		//this->Ball->velocity.x = (this->Ball->velocity.x <= 0) ? this->Ball->velocity.x + 20.f : this->Ball->velocity.x - 20.f;
 	}
 
 	//Player1 & Player2
-	/*if (this->player->getGlobalBounds().intersects(this->player2->getGlobalBounds()) && this->player->velocity.x >= this->player2->velocity.x && this->player2->velocity.x <= 0.f)
+	/*if (this->player->getGlobalBounds().intersects(this->player2->getGlobalBounds()) && this->player->velocity.x >= this->player2->velocity.x && this->player->velocity.x >= 0.f)
 	{
 		printf("1	Player : %f     Player2 : %f\n", this->player->velocity.x, this->player2->velocity.x);
 		this->player->setPosition(this->player2->getPosition().x, this->player->getPosition().y);
-	}*/
-	/*if (this->player2->getGlobalBounds().intersects(this->player->getGlobalBounds()) && this->player->velocity.x >= this->player2->velocity.x && this->player->velocity.x >= 0.f)
+	}
+	if (this->player2->getGlobalBounds().intersects(this->player->getGlobalBounds()) && this->player->velocity.x >= this->player2->velocity.x && this->player->velocity.x >= 0.f)
 	{
 		printf("2	Player : %f     Player2 : %f\n", this->player->velocity.x, this->player2->velocity.x);
 		this->player2->setPosition(this->player->getPosition().x, this->player2->getPosition().y);
 	}*/
 
+	/*if (this->player->getHitboxRBounds().intersects(this->player2->getHitboxLBounds()))
+	{
+		this->player->collisionPlayer = true;
+	}
+	else
+	{
+		this->player->collisionPlayer = false;
+	}*/
 }
 

@@ -47,6 +47,8 @@ public:
 	bool jumping = false;
 	bool jumpingUp = false;
 	bool gravityBool = false;
+
+	int rotation;
 	
 	//collision
 	int collision = 0;

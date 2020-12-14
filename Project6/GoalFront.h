@@ -11,7 +11,9 @@ private:
 
 	//Hitbox
 	sf::RectangleShape hitboxL;
+	sf::RectangleShape crossbarL;
 	sf::RectangleShape hitboxR;
+	sf::RectangleShape crossbarR;
 
 	//Core
 	void initTexture();
@@ -29,5 +31,8 @@ public:
 	//Hitbox
 	const sf::FloatRect getCrossbarRBounds() const;
 	const sf::FloatRect getCrossbarLBounds() const;
+
+	const sf::FloatRect getHitboxRBounds() const;
+	const sf::FloatRect getHitboxLBounds() const;
 };
 

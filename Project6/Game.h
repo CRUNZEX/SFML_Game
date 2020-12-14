@@ -9,6 +9,7 @@
 
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
+#include<sstream>
 #include<stdio.h>
 
 class Game
@@ -25,6 +26,7 @@ private:
 	GoalFront* goalfront;
 	GoalBack* goalback;
 
+
 	//HP
 	sf::RectangleShape playerHpBar;
 	sf::RectangleShape playerHpBarBack;
@@ -35,10 +37,28 @@ private:
 	sf::RectangleShape player2HpBarBack;
 	sf::RectangleShape player2MpBar;
 	sf::RectangleShape player2MpBarBack;
+	
+	//clock
+	sf::Font Font;
+	sf::Text Time;
+	sf::Text score1;
+	sf::Text score2;
+
+	//Score
+	int scorePlayer1 = 0;
+	int scorePlayer2 = 0;
+
+	//Time
+	int timeCount = 0;
+	sf::Clock timeClock;
+
+	//Dash
+	sf::Clock dashClock;
 
 	void initWindow();
 	void initGUI();
 	void initHP();
+	void initText();
 
 public:
 	Game();
@@ -53,6 +73,9 @@ public:
 
 	void updateGUI();
 	void renderGUI();
+
+	void updateText();
+	void renderText();
 
 	void updatePlayer();
 	void updatePlayer2();

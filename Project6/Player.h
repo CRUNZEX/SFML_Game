@@ -63,6 +63,8 @@ public:
 	bool dashDo = false;
 	int dashTime = 0;
 
+	bool collisionPlayer = false;
+
 	//jump
 	void jump();
 	void jumpBreak();
