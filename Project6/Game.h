@@ -6,6 +6,7 @@
 #include "Goal.h"
 #include "GoalFront.h"
 #include "GoalBack.h"
+#include "Mainmenu.h"
 
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
@@ -15,6 +16,7 @@
 class Game
 {
 private:
+	Mainmenu* mainmenu;
 	Wallpaper* wallpaper;
 	
 	Player* player;
@@ -44,6 +46,10 @@ private:
 	sf::Text score1;
 	sf::Text score2;
 
+	//ability
+	int ballBoundsPlayer1 = 0;
+	int ballBoundsPlayer2 = 0;
+
 	//Score
 	int scorePlayer1 = 0;
 	int scorePlayer2 = 0;
@@ -54,6 +60,12 @@ private:
 
 	//Dash
 	sf::Clock dashClock;
+
+	//ABility
+	sf::Clock abilityTimeCheck_Player1;
+	sf::Clock abilityTimeCheck_Player2;
+	bool abilityBoolPlayer1;
+	bool abilityBoolPlayer2;
 
 	void initWindow();
 	void initGUI();
@@ -79,8 +91,9 @@ public:
 
 	void updatePlayer();
 	void updatePlayer2();
-	
+
 	void action();
+	void ability();
 
 	void updateBall();
 	

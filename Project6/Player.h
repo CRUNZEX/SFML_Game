@@ -70,8 +70,8 @@ public:
 	bool gravityBool = false;
 
 	//Keyboard
-	bool keyD = false;
 	bool keyA = false;
+	bool keyD = false;
 
 	//HP
 	const int& HPget() const;
@@ -79,6 +79,7 @@ public:
 
 	void HPset(const int hp);
 	void HPlose(const int value);
+	void HPget(const int value);
 	bool die();
 
 	//accessors

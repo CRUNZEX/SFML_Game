@@ -6,6 +6,9 @@ void Game::initWindow()
 	this->window->setFramerateLimit(60);
 	this->window->setVerticalSyncEnabled(false);
 
+	//Menu
+	this->mainmenu = new Mainmenu(1280.f, 720.f);
+
 	//Wallpaper
 	this->wallpaper = new Wallpaper();
 	
@@ -62,7 +65,7 @@ void Game::initHP()
 }
 void Game::initText()
 {
-	this->Font.loadFromFile("Pictures/Font.ttf");
+	this->Font.loadFromFile("File/font.ttf");
 
 	//clock
 	this->Time.setFont(this->Font);
@@ -131,6 +134,7 @@ void Game::update()
 
 	this->updateGUI();
 	/*this->action();*/
+	this->ability();
 	this->updateText();
 	this->updateCollision();
 }
@@ -139,8 +143,11 @@ void Game::render()
 {
 	this->window->clear();
 
+	//Menu
+	this->mainmenu->render(*this->window);
+
 	//Wallpaper
-	this->wallpaper->render(*this->window);
+	//this->wallpaper->render(*this->window);
 	
 	//Goal
 	this->goalback->render(*this->window);
@@ -249,6 +256,27 @@ void Game::action()
 		this->player2->kick = false;
 		this->player->HPlose(1);
 	}
+}
+
+void Game::ability()
+{
+	if (this->ballBoundsPlayer1 >= 20)
+	{
+		this->ballBoundsPlayer1 -= 20;
+		this->player->HPget(5);
+	}
+	if (this->abilityBoolPlayer1 == true)
+	{
+		if (this->abilityTimeCheck_Player1.getElapsedTime().asMilliseconds() <= 200.f)
+			this->ballBoundsPlayer1++;
+	}
+	/*else
+		this->abilityTimeCheck_Player1.restart();*/
+
+	/*printf((abilityBoolPlayer1) ? "TRUE " : "FALSE ");
+	printf("%f   ", this->abilityTimeCheck_Player1);
+	printf("%d %d\n", this->ballBoundsPlayer1, this->ballBoundsPlayer2);*/
+
 }
 
 void Game::updateBall()
@@ -414,6 +442,9 @@ void Game::updateCollision()
 
 	if (this->Ball->getGlobalBoundsBall().intersects(this->player->getHitboxLBounds()))
 	{
+		//this->ballBoundsPlayer1++;
+		this->abilityBoolPlayer1 = true;
+
 		if (this->player->dash == false)
 		{
 			if (this->player->velocity.x != 0)
@@ -430,6 +461,9 @@ void Game::updateCollision()
 	}
 	else if (this->Ball->getGlobalBoundsBall().intersects(this->player->getHitboxRBounds()))
 	{
+		//this->ballBoundsPlayer1++;
+		this->abilityBoolPlayer1 = true;
+
 		if (this->player->dash == false)
 		{
 			if (this->player->velocity.x != 0)
@@ -449,10 +483,13 @@ void Game::updateCollision()
 		this->Ball->velocity.y *= -2.0f;
 		//this->Ball->velocity.x = (this->Ball->velocity.x <= 0) ? this->Ball->velocity.x + 20.f : this->Ball->velocity.x - 20.f;
 	}
+	else
+		this->abilityBoolPlayer1 = false;
 
 	//Player2
 	if (this->Ball->getGlobalBoundsBall().intersects(this->player2->getHitboxLBounds()))
 	{
+		this->ballBoundsPlayer2++;
 		if (this->player2->dash == false)
 		{
 			if (this->player2->velocity.x != 0)
@@ -469,6 +506,7 @@ void Game::updateCollision()
 	}
 	else if (this->Ball->getGlobalBoundsBall().intersects(this->player2->getHitboxRBounds()))
 	{
+		this->ballBoundsPlayer2++;
 		if (this->player2->dash == false)
 		{
 			if (this->player2->velocity.x != 0)
@@ -488,7 +526,7 @@ void Game::updateCollision()
 		this->Ball->velocity.y *= -2.0f;
 		//this->Ball->velocity.x = (this->Ball->velocity.x <= 0) ? this->Ball->velocity.x + 20.f : this->Ball->velocity.x - 20.f;
 	}
-
+	
 	//Player1 & Player2
 
 	/*if (this->player->getGlobalBounds().intersects(this->player2->getGlobalBounds()) && this->player->velocity.x >= this->player2->velocity.x && this->player->velocity.x >= 0.f)

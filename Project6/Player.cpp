@@ -5,7 +5,7 @@ void Player::initVariables()
 	this->animState = PLAYER_ANIMATION_STATES::IDLE;
 
 	this->hpMax = 100;
-	this->hp = this->hpMax;
+	this->hp = 0;
 }
 
 void Player::initTexture()
@@ -101,6 +101,13 @@ bool Player::die()
 		return true;
 	else
 		return false;
+}
+
+void Player::HPget(const int value)
+{
+	this->hp += value;
+	if (this->hp >= 100)
+		this->hp = 100;
 }
 
 const bool& Player::getAnimSwitch()

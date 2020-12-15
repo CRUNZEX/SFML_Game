@@ -80,6 +80,13 @@ void Player2::HPlose(const int value)
 		this->hp = 0;
 }
 
+void Player2::HPget(const int value)
+{
+	this->hp += value;
+	if (this->hp >= 100)
+		this->hp = 100;
+}
+
 bool Player2::die()
 {
 	if (this->hp == 0)

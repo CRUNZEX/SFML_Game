@@ -65,6 +65,7 @@ public:
 
 	void HPset(const int hp);
 	void HPlose(const int value);
+	void HPget(const int value);
 	bool die();
 
 	//accessors
