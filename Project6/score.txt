@@ -1,5 +1,5 @@
 HHH 10
 FFFF 3
-OO 0
-HHHHH 0
-GGG 0
+hj 0
+hj 0
+hj 0

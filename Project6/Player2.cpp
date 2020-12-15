@@ -184,21 +184,21 @@ void Player2::render(sf::RenderTarget& target)
 	this->hitboxR.setFillColor(sf::Color::Transparent);
 	this->hitboxR.setSize(sf::Vector2f(-30.f, 70.f));
 	this->hitboxR.setPosition(this->sprite.getPosition().x + 85, this->sprite.getPosition().y + 20);
-	target.draw(this->hitboxR);
+	//target.draw(this->hitboxR);
 
 	this->hitboxL.setFillColor(sf::Color::White);
 	this->hitboxL.setOutlineThickness(3);
 	this->hitboxL.setFillColor(sf::Color::Transparent);
 	this->hitboxL.setSize(sf::Vector2f(30.f, 70.f));
 	this->hitboxL.setPosition(this->sprite.getPosition().x + 15, this->sprite.getPosition().y + 20);
-	target.draw(this->hitboxL);
+	//target.draw(this->hitboxL);
 
 	this->hitboxHead.setOutlineColor(sf::Color::White);
 	this->hitboxHead.setOutlineThickness(3);
 	this->hitboxHead.setFillColor(sf::Color::Transparent);
 	this->hitboxHead.setSize(sf::Vector2f(70.f, 10.f));
 	this->hitboxHead.setPosition(this->sprite.getPosition().x + 15, this->getPosition().y);
-	target.draw(this->hitboxHead);
+	//target.draw(this->hitboxHead);
 
 	target.draw(this->sprite);
 
@@ -206,19 +206,19 @@ void Player2::render(sf::RenderTarget& target)
 	Circ.setFillColor(sf::Color::Red);
 	Circ.setRadius(3.f);
 	Circ.setPosition(this->sprite.getPosition());
-	target.draw(Circ);
+	//target.draw(Circ);
 
 	sf::CircleShape CircHitboxL;
 	CircHitboxL.setFillColor(sf::Color::Magenta);
 	CircHitboxL.setRadius(3.f);
 	CircHitboxL.setPosition(this->hitboxL.getPosition());
-	target.draw(CircHitboxL);
+	//target.draw(CircHitboxL);
 
 	sf::CircleShape CircHitboxR;
 	CircHitboxR.setFillColor(sf::Color::Magenta);
 	CircHitboxR.setRadius(3.f);
 	CircHitboxR.setPosition(this->hitboxR.getPosition());
-	target.draw(CircHitboxR);
+	//target.draw(CircHitboxR);
 }
 
 void Player2::updatePhysics()

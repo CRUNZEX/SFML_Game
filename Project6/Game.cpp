@@ -10,6 +10,7 @@ void Game::initWindow()
 	this->mainmenu = new Mainmenu(1280.f, 720.f);
 	this->gameend = new GameEnd(1280.f, 720.f);
 	this->gametext = new GameText(1280.f, 720.f);
+	this->gamehigh = new GameHigh(1280.f, 720.f);
 
 	//Wallpaper
 	this->wallpaper = new Wallpaper();
@@ -202,13 +203,19 @@ void Game::run()
 		}
 		else if (this->gameState == 3) //High Score
 		{
+			this->gamehigh->render(*this->window);
+			this->mousePosition();
+			this->updateGUIHigh();
+
 			for (int i = 135; i <= 475; i += 85) {
 				showhighscore(950, i, to_string(userScore[(i - 135) / 85].first), *this->window, &Font);
 				showhighscore(250, i, userScore[j + (i - 135) / 85].second, *this->window, &Font);
 			}
+
 		}
 		else if (this->gameState == 4) //How to Play
 		{
+			this->mousePosition();
 
 		}
 		else if (this->gameState == 5) //Game End
@@ -410,6 +417,18 @@ void Game::updateGUIend()
 		this->gameend->menu[0].setFillColor(sf::Color::White);
 }
 
+void Game::updateGUIHigh()
+{
+	if (this->gamehigh->botton1().contains(this->mousePosition_View))
+	{
+		this->gamehigh->menu[0].setFillColor(sf::Color::Cyan);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			this->gameState = 0;
+	}
+	else if (!this->gamehigh->botton1().contains(this->mousePosition_View))
+		this->gamehigh->menu[0].setFillColor(sf::Color::White);
+}
+
 void Game::showhighscore(int x, int y, string word, sf::RenderWindow& window, sf::Font* font)
 {
 	sf::Text text;
@@ -417,6 +436,8 @@ void Game::showhighscore(int x, int y, string word, sf::RenderWindow& window, sf
 	text.setPosition(x, y);
 	text.setString(word);
 	text.setCharacterSize(80);
+	text.setOutlineThickness(3);
+	text.setOutlineColor(sf::Color::Black);
 	window.draw(text);
 }
 

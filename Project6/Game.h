@@ -11,6 +11,7 @@
 #include "Textbox.h"
 #include "GameEnd.h"
 #include "GameText.h"
+#include "GameHigh.h"
 
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
@@ -33,6 +34,7 @@ private:
 	Textbox* textbox;
 	GameText* gametext;
 	GameEnd* gameend;
+	GameHigh* gamehigh;
 	Wallpaper* wallpaper;
 	
 	Player* player;
@@ -123,6 +125,7 @@ public:
 	void updateGUImain();
 	void updateGUItextbox();
 	void updateGUIend();
+	void updateGUIHigh();
 
 	void showhighscore(int x, int y, string word, sf::RenderWindow& window, sf::Font* font);
 
