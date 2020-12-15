@@ -150,6 +150,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameEnd.cpp" />
+    <ClCompile Include="GameText.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="GoalBack.cpp" />
     <ClCompile Include="GoalFront.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameEnd.h" />
+    <ClInclude Include="GameText.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="GoalBack.h" />
     <ClInclude Include="GoalFront.h" />

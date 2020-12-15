@@ -9,6 +9,7 @@ void Game::initWindow()
 	//Menu
 	this->mainmenu = new Mainmenu(1280.f, 720.f);
 	this->gameend = new GameEnd(1280.f, 720.f);
+	this->gametext = new GameText(1280.f, 720.f);
 
 	//Wallpaper
 	this->wallpaper = new Wallpaper();
@@ -91,7 +92,7 @@ void Game::initText()
 Game::Game()
 {
 	this->initWindow();
-	this->initGUI();
+	/*this->initGUI();*/
 	this->initHP();
 	this->initText();
 }
@@ -110,10 +111,27 @@ Game::~Game()
 
 void Game::run()
 {
-	Textbox playernametextbox(100, sf::Color::White, true);
+	Textbox playernametextbox(60, sf::Color::White, true);
 	playernametextbox.setFont(this->Font);
-	playernametextbox.setPosition({ 500.f,320.f });
+	playernametextbox.setPosition({ 100.f, 100.f });
 	playernametextbox.setlimit(true, 10);
+
+	Textbox player2nametextbox(60, sf::Color::White, true);
+	player2nametextbox.setFont(this->Font);
+	player2nametextbox.setPosition({ 800.f, 100.f });
+	player2nametextbox.setlimit(true, 10);
+
+
+	int j = 0;
+
+	this->fp = fopen("./score.txt", "r");
+	for (int i = 0; i < 5; i++) 
+	{
+		fscanf(fp, "%s", &temp);
+		name[i] = temp;
+		fscanf(fp, "%d", &score[i]);
+		userScore.push_back(make_pair(score[i], name[i]));
+	}
 
 	while (this->window->isOpen())
 	{
@@ -126,10 +144,21 @@ void Game::run()
 				this->window->close();
 			case sf::Event::TextEntered:
 				if (this->gameState == 1)
-					playernametextbox.typeOn(e);
+				{
+					if (this->right == true)
+						player2nametextbox.typeOn(e);
+					else
+						playernametextbox.typeOn(e);
+				}
 			default:
 				break;
 			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				this->right = true;
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				this->right = false;
+
 
 			if (e.Event::KeyPressed && e.Event::key.code == sf::Keyboard::Escape)
 				this->window->close();
@@ -138,6 +167,9 @@ void Game::run()
 				this->player->resetAnimationTimer();
 		}
 		this->window->clear();
+
+		
+
 	
 		if (this->gameState == 0) //Menu
 		{
@@ -147,7 +179,20 @@ void Game::run()
 		}
 		else if (this->gameState == 1) //Text box
 		{
+			this->gametext->render(*this->window);
 			playernametextbox.drawTo(*this->window);
+			player2nametextbox.drawTo(*this->window);
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+			{
+				this->gameState = 2;
+
+				name[5] = playernametextbox.gettext();
+				name[6] = player2nametextbox.gettext();
+
+			}
+
+			this->mousePosition();
 			this->updateGUItextbox();
 		}
 		else if (this->gameState == 2) //Play
@@ -157,7 +202,10 @@ void Game::run()
 		}
 		else if (this->gameState == 3) //High Score
 		{
-
+			for (int i = 135; i <= 475; i += 85) {
+				showhighscore(950, i, to_string(userScore[(i - 135) / 85].first), *this->window, &Font);
+				showhighscore(250, i, userScore[j + (i - 135) / 85].second, *this->window, &Font);
+			}
 		}
 		else if (this->gameState == 4) //How to Play
 		{
@@ -168,6 +216,35 @@ void Game::run()
 			this->gameend->render(*this->window); 
 			this->mousePosition();
 			this->updateGUIend();
+			if (this->highscore == false)
+			{
+				this->highscore = true;
+				j ++;
+				this->fp = fopen("./score.txt", "r");
+				score[5] = this->scorePlayer1;
+				userScore.push_back(make_pair(score[5], name[5]));
+				sort(userScore.begin(), userScore.end());
+				fclose(fp);
+				fopen("./score.txt", "w");
+				for (int i = 4 + j; i >= 0 + j; i--) {
+					strcpy(temp, userScore[i].second.c_str());
+					fprintf(fp, "%s %d\n", temp, userScore[i].first);
+				}
+				fclose(fp);
+
+				j++;
+				this->fp = fopen("./score.txt", "r");
+				score[6] = this->scorePlayer2;
+				userScore.push_back(make_pair(score[6], name[6]));
+				sort(userScore.begin(), userScore.end());
+				fclose(fp);
+				fopen("./score.txt", "w");
+				for (int i = 4 + j; i >= 0 + j; i--) {
+					strcpy(temp, userScore[i].second.c_str());
+					fprintf(fp, "%s %d\n", temp, userScore[i].first);
+				}
+				fclose(fp);
+			}
 		}
 
 		this->window->display();
@@ -175,7 +252,6 @@ void Game::run()
 }
 void Game::update()
 {
-	
 	this->updatePlayer();
 	this->updatePlayer2();
 	this->updateBall();
@@ -189,8 +265,6 @@ void Game::update()
 
 void Game::render()
 {
-	
-
 	//Menu
 	//this->mainmenu->render(*this->window);
 
@@ -214,8 +288,6 @@ void Game::render()
 	this->renderGUI();
 
 	this->renderText();
-	
-	
 }
 
 void Game::mousePosition()
@@ -232,8 +304,6 @@ void Game::updateGUI()
 
 	float hpPercent2 = static_cast<float>(this->player2->HPget()) / this->player2->HPgetMax();
 	this->player2HpBar.setSize(sf::Vector2f(300.f * hpPercent2, this->player2HpBar.getSize().y));
-
-	
 }
 
 void Game::renderGUI()
@@ -270,7 +340,7 @@ void Game::updateGUImain()
 	{
 		this->mainmenu->menu[1].setFillColor(sf::Color::Cyan);
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			this->gameState = 2;
+			this->gameState = 3;
 	}
 	else if (!this->mainmenu->botton2().contains(this->mousePosition_View))
 		this->mainmenu->menu[1].setFillColor(sf::Color::White);
@@ -280,7 +350,7 @@ void Game::updateGUImain()
 	{
 		this->mainmenu->menu[2].setFillColor(sf::Color::Cyan);
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			this->gameState = 3;
+			this->gameState = 4;
 	}
 	else if (!this->mainmenu->botton3().contains(this->mousePosition_View))
 		this->mainmenu->menu[2].setFillColor(sf::Color::White);
@@ -298,10 +368,19 @@ void Game::updateGUImain()
 
 void Game::updateGUItextbox()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		this->gameState = 2;*/
+
+	
+
+	if (this->gametext->botton1().contains(this->mousePosition_View))
 	{
-		this->gameState = 2;
+		this->gametext->menu[0].setFillColor(sf::Color::Cyan);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			this->gameState = 2;
 	}
+	else if (!this->gametext->botton1().contains(this->mousePosition_View))
+		this->gametext->menu[0].setFillColor(sf::Color::White);
 }
 
 void Game::updateGUIend()
@@ -310,7 +389,22 @@ void Game::updateGUIend()
 	{
 		this->gameend->menu[0].setFillColor(sf::Color::Cyan);
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
 			this->gameState = 2;
+			this->highscore = false;
+
+			this->player->setPosition(300, 690);
+			this->player2->setPosition(900, 690);
+			this->Ball->setPositionBall(640, 300);
+			this->Ball->resetVelocityXBall();
+			this->Ball->resetVelocityYBall();
+
+			this->timeCount = 0;
+			this->Ball->ballBounds = 0;
+
+			this->scorePlayer1 = 0;
+			this->scorePlayer2 = 0;
+		}
 	}
 	else if (!this->mainmenu->botton1().contains(this->mousePosition_View))
 		this->gameend->menu[0].setFillColor(sf::Color::White);
@@ -322,7 +416,7 @@ void Game::showhighscore(int x, int y, string word, sf::RenderWindow& window, sf
 	text.setFont(*font);
 	text.setPosition(x, y);
 	text.setString(word);
-	text.setCharacterSize(120);
+	text.setCharacterSize(80);
 	window.draw(text);
 }
 
@@ -539,7 +633,7 @@ void Game::updateCollision()
 	}
 	if (this->goalback->goalRBounds().intersects(this->Ball->getGlobalBoundsBall()))
 	{
-		this->scorePlayer1++;
+		this->scorePlayer1+=10;
 		this->Ball->velocity.x = -10.f;
 		this->Ball->velocity.y = 0.f;
 		this->Ball->setPositionBall(450, 300);

@@ -87,6 +87,9 @@
     <ClCompile Include="GameEnd.cpp">
       <Filter>Source Files\GameState</Filter>
     </ClCompile>
+    <ClCompile Include="GameText.cpp">
+      <Filter>Source Files\GameState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -135,6 +138,9 @@
       <Filter>Header Files\GameState</Filter>
     </ClInclude>
     <ClInclude Include="GameEnd.h">
+      <Filter>Header Files\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameText.h">
       <Filter>Header Files\GameState</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include "Player.h"
 #include "Player2.h"
 #include "Ball.h"
@@ -9,6 +10,7 @@
 #include "Mainmenu.h"
 #include "Textbox.h"
 #include "GameEnd.h"
+#include "GameText.h"
 
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
@@ -29,6 +31,7 @@ class Game
 private:
 	Mainmenu* mainmenu;
 	Textbox* textbox;
+	GameText* gametext;
 	GameEnd* gameend;
 	Wallpaper* wallpaper;
 	
@@ -85,9 +88,15 @@ private:
 
 	//Menu State
 	int gameState = 0;
+	bool right = false;
 
 	//High Score
 	FILE* fp;
+	char temp[255];
+	int score[7];
+	string name[7];
+	vector<pair<int, string>>userScore;
+	bool highscore = false;
 
 
 	void initWindow();

@@ -9,6 +9,8 @@
 class Textbox {
 public:
 	Textbox(int size, sf::Color color, bool sel) {
+		textbox.setOutlineThickness(3);
+		textbox.setOutlineColor(sf::Color::Black);
 		textbox.setCharacterSize(size);
 		textbox.setFillColor(color);
 		isselected = sel;
