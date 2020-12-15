@@ -8,6 +8,7 @@ void Game::initWindow()
 
 	//Menu
 	this->mainmenu = new Mainmenu(1280.f, 720.f);
+	this->gameend = new GameEnd(1280.f, 720.f);
 
 	//Wallpaper
 	this->wallpaper = new Wallpaper();
@@ -109,25 +110,72 @@ Game::~Game()
 
 void Game::run()
 {
+	Textbox playernametextbox(100, sf::Color::White, true);
+	playernametextbox.setFont(this->Font);
+	playernametextbox.setPosition({ 500.f,320.f });
+	playernametextbox.setlimit(true, 10);
+
 	while (this->window->isOpen())
 	{
-		this->update();
-		this->render();
+		sf::Event e;
+		while (this->window->pollEvent(e))
+		{
+			switch (e.type)
+			{
+			case sf::Event::Closed:
+				this->window->close();
+			case sf::Event::TextEntered:
+				if (this->gameState == 1)
+					playernametextbox.typeOn(e);
+			default:
+				break;
+			}
+
+			if (e.Event::KeyPressed && e.Event::key.code == sf::Keyboard::Escape)
+				this->window->close();
+
+			if (e.Event::type == sf::Event::KeyReleased && (e.Event::key.code == sf::Keyboard::A || e.Event::key.code == sf::Keyboard::D || e.Event::key.code == sf::Keyboard::S || e.Event::key.code == sf::Keyboard::W))
+				this->player->resetAnimationTimer();
+		}
+		this->window->clear();
+	
+		if (this->gameState == 0) //Menu
+		{
+			this->mainmenu->render(*this->window);
+			this->mousePosition();
+			this->updateGUImain();
+		}
+		else if (this->gameState == 1) //Text box
+		{
+			playernametextbox.drawTo(*this->window);
+			this->updateGUItextbox();
+		}
+		else if (this->gameState == 2) //Play
+		{
+			this->update();
+			this->render();
+		}
+		else if (this->gameState == 3) //High Score
+		{
+
+		}
+		else if (this->gameState == 4) //How to Play
+		{
+
+		}
+		else if (this->gameState == 5) //Game End
+		{
+			this->gameend->render(*this->window); 
+			this->mousePosition();
+			this->updateGUIend();
+		}
+
+		this->window->display();
 	}
 }
 void Game::update()
 {
-	sf::Event e;
-	while (this->window->pollEvent(e))
-	{
-		if (e.Event::type == sf::Event::Closed)
-			this->window->close();
-		if (e.Event::KeyPressed && e.Event::key.code == sf::Keyboard::Escape)
-			this->window->close();
-
-		if (e.Event::type == sf::Event::KeyReleased && (e.Event::key.code == sf::Keyboard::A || e.Event::key.code == sf::Keyboard::D || e.Event::key.code == sf::Keyboard::S || e.Event::key.code == sf::Keyboard::W))
-			this->player->resetAnimationTimer();
-	}
+	
 	this->updatePlayer();
 	this->updatePlayer2();
 	this->updateBall();
@@ -141,13 +189,13 @@ void Game::update()
 
 void Game::render()
 {
-	this->window->clear();
+	
 
 	//Menu
-	this->mainmenu->render(*this->window);
+	//this->mainmenu->render(*this->window);
 
 	//Wallpaper
-	//this->wallpaper->render(*this->window);
+	this->wallpaper->render(*this->window);
 	
 	//Goal
 	this->goalback->render(*this->window);
@@ -167,16 +215,25 @@ void Game::render()
 
 	this->renderText();
 	
-	this->window->display();
+	
+}
+
+void Game::mousePosition()
+{
+	this->mousePosition_Window = sf::Mouse::getPosition(*this->window);
+	this->mousePosition_View = this->window->mapPixelToCoords(this->mousePosition_Window);
 }
 
 void Game::updateGUI()
 {
+	//Skill
 	float hpPercent = static_cast<float>(this->player->HPget()) / this->player->HPgetMax();
 	this->playerHpBar.setSize(sf::Vector2f(300.f * hpPercent, this->playerHpBar.getSize().y));
 
 	float hpPercent2 = static_cast<float>(this->player2->HPget()) / this->player2->HPgetMax();
 	this->player2HpBar.setSize(sf::Vector2f(300.f * hpPercent2, this->player2HpBar.getSize().y));
+
+	
 }
 
 void Game::renderGUI()
@@ -196,6 +253,79 @@ void Game::renderGUI()
 	this->window->draw(this->player2MpBar);
 }
 
+void Game::updateGUImain()
+{
+	//Play
+	if (this->mainmenu->botton1().contains(this->mousePosition_View))
+	{
+		this->mainmenu->menu[0].setFillColor(sf::Color::Cyan);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			this->gameState = 1;
+	}
+	else if (!this->mainmenu->botton1().contains(this->mousePosition_View))
+		this->mainmenu->menu[0].setFillColor(sf::Color::White);
+
+	//High Score
+	if (this->mainmenu->botton2().contains(this->mousePosition_View))
+	{
+		this->mainmenu->menu[1].setFillColor(sf::Color::Cyan);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			this->gameState = 2;
+	}
+	else if (!this->mainmenu->botton2().contains(this->mousePosition_View))
+		this->mainmenu->menu[1].setFillColor(sf::Color::White);
+
+	//How to Play
+	if (this->mainmenu->botton3().contains(this->mousePosition_View))
+	{
+		this->mainmenu->menu[2].setFillColor(sf::Color::Cyan);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			this->gameState = 3;
+	}
+	else if (!this->mainmenu->botton3().contains(this->mousePosition_View))
+		this->mainmenu->menu[2].setFillColor(sf::Color::White);
+
+	//Exit
+	if (this->mainmenu->botton4().contains(this->mousePosition_View))
+	{
+		this->mainmenu->menu[3].setFillColor(sf::Color::Red);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			this->window->close();
+	}
+	else if (!this->mainmenu->botton4().contains(this->mousePosition_View))
+		this->mainmenu->menu[3].setFillColor(sf::Color::White);
+}
+
+void Game::updateGUItextbox()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+	{
+		this->gameState = 2;
+	}
+}
+
+void Game::updateGUIend()
+{
+	if (this->gameend->botton1().contains(this->mousePosition_View))
+	{
+		this->gameend->menu[0].setFillColor(sf::Color::Cyan);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			this->gameState = 2;
+	}
+	else if (!this->mainmenu->botton1().contains(this->mousePosition_View))
+		this->gameend->menu[0].setFillColor(sf::Color::White);
+}
+
+void Game::showhighscore(int x, int y, string word, sf::RenderWindow& window, sf::Font* font)
+{
+	sf::Text text;
+	text.setFont(*font);
+	text.setPosition(x, y);
+	text.setString(word);
+	text.setCharacterSize(120);
+	window.draw(text);
+}
+
 void Game::updateText()
 {
 	std::stringstream timeText;
@@ -205,8 +335,10 @@ void Game::updateText()
 
 	if (this->timeClock.getElapsedTime().asSeconds() >= 1.f)
 	{
-		if (this->timeCount <= 59.f)
+		if (this->timeCount <= GAMETIME)
 			this->timeCount++;
+		else
+			this->gameState = 5;
 		this->timeClock.restart();
 
 		//Position

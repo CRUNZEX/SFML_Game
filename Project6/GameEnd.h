@@ -4,13 +4,13 @@
 
 #define MAX_NUMBER 5
 
-class Mainmenu
+class GameEnd
 {
 private:
 	//Font
 	sf::Font Font;
 
-	
+
 	//Texture
 	sf::Texture bgTexture;
 	sf::Texture scoreTexture;
@@ -27,8 +27,8 @@ private:
 	void initBotton(float width, float height);
 
 public:
-	Mainmenu(float width, float height);
-	virtual ~Mainmenu();
+	GameEnd(float width, float height);
+	virtual ~GameEnd();
 
 	void update(float width, float height);
 
@@ -36,10 +36,9 @@ public:
 
 	//Text
 	sf::Text menu[MAX_NUMBER];
-	
+
 	const sf::FloatRect	botton1() const;
 	const sf::FloatRect botton2() const;
 	const sf::FloatRect botton3() const;
 	const sf::FloatRect botton4() const;
 };
-

@@ -22,6 +22,7 @@ private:
 	Goal* goal;
 
 	sf::Texture texture;
+	sf::Texture bgTexture;
 
 	//Core
 	void initWallpaper();
@@ -29,6 +30,8 @@ private:
 	void initBGfield();
 
 	void initGoal();
+
+	void initGameState();
 
 public:
 	Wallpaper();

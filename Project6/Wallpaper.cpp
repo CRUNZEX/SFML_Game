@@ -20,6 +20,11 @@ void Wallpaper::initGoal()
 	this->goal = new Goal();
 }
 
+void Wallpaper::initGameState()
+{
+	this->bgTexture.loadFromFile("Pictures/GameEnd.png");
+}
+
 Wallpaper::Wallpaper()
 {
 	this->initBGfield();

@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Object">
       <UniqueIdentifier>{f01d323b-8b57-4f60-8cdd-fb20cfcc5f1a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameState">
+      <UniqueIdentifier>{a796f189-7842-4975-9728-f31926d9d5cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameState">
+      <UniqueIdentifier>{3394b7f5-d875-44e6-a217-dfc26b06540f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -76,7 +82,10 @@
       <Filter>Source Files\Object</Filter>
     </ClCompile>
     <ClCompile Include="Mainmenu.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnd.cpp">
+      <Filter>Source Files\GameState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,7 +129,13 @@
       <Filter>Header Files\Object</Filter>
     </ClInclude>
     <ClInclude Include="Mainmenu.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Textbox.h">
+      <Filter>Header Files\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnd.h">
+      <Filter>Header Files\GameState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

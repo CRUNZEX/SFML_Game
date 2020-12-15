@@ -7,16 +7,29 @@
 #include "GoalFront.h"
 #include "GoalBack.h"
 #include "Mainmenu.h"
+#include "Textbox.h"
+#include "GameEnd.h"
 
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
+
+#include<string>
 #include<sstream>
+#include<utility>
+#include<algorithm>
+#include<vector>
+#include<iostream>
 #include<stdio.h>
+
+#define GAMETIME 10
+using namespace std;
 
 class Game
 {
 private:
 	Mainmenu* mainmenu;
+	Textbox* textbox;
+	GameEnd* gameend;
 	Wallpaper* wallpaper;
 	
 	Player* player;
@@ -28,6 +41,9 @@ private:
 	GoalFront* goalfront;
 	GoalBack* goalback;
 
+	//Mouse
+	sf::Vector2i mousePosition_Window;
+	sf::Vector2f mousePosition_View;
 
 	//HP
 	sf::RectangleShape playerHpBar;
@@ -61,11 +77,18 @@ private:
 	//Dash
 	sf::Clock dashClock;
 
-	//ABility
+	//Ability
 	sf::Clock abilityTimeCheck_Player1;
 	sf::Clock abilityTimeCheck_Player2;
 	bool abilityBoolPlayer1;
 	bool abilityBoolPlayer2;
+
+	//Menu State
+	int gameState = 0;
+
+	//High Score
+	FILE* fp;
+
 
 	void initWindow();
 	void initGUI();
@@ -83,8 +106,16 @@ public:
 	void update();
 	void render();
 
+	void mousePosition();
+
 	void updateGUI();
 	void renderGUI();
+
+	void updateGUImain();
+	void updateGUItextbox();
+	void updateGUIend();
+
+	void showhighscore(int x, int y, string word, sf::RenderWindow& window, sf::Font* font);
 
 	void updateText();
 	void renderText();
