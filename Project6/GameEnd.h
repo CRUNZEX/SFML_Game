@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define MAX_NUMBER 5
+#define MAX_NUMBER 8
 
 class GameEnd
 {
@@ -32,6 +32,7 @@ private:
 	void initText();
 	void initMenu();
 	void initBotton(float width, float height);
+	void initWin();
 
 public:
 	GameEnd(float width, float height);

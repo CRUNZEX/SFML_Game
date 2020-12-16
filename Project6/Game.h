@@ -25,7 +25,8 @@
 #include<iostream>
 #include<stdio.h>
 
-#define GAMETIME 59
+#define GAMETIME 5
+
 using namespace std;
 
 class Game

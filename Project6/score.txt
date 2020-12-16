@@ -1,5 +1,5 @@
 fa 10
 HHH 10
+asdas 5
+asd 3
 FFFF 3
-rt 1
-adda 1

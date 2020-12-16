@@ -101,7 +101,7 @@ void ball::renderBall(sf::RenderTarget& target)
 	Circ.setRadius(3.f);
 	Circ.setPosition(this->sprite.getPosition());
 
-	target.draw(Circ);
+	//target.draw(Circ);
 }
 
 void ball::updatePhysicsBall()

@@ -227,6 +227,9 @@ void Game::run()
 			this->mousePosition();
 			this->updateGUIend();
 
+			this->gameend->scorePlayer1 = this->scorePlayer1;
+			this->gameend->scorePlayer2 = this->scorePlayer2;
+
 			std::stringstream scoreText1;
 			std::stringstream scoreText2;
 
@@ -801,6 +804,12 @@ void Game::updateCollision()
 		this->Ball->velocity.y *= -2.0f;
 		//this->Ball->velocity.x = (this->Ball->velocity.x <= 0) ? this->Ball->velocity.x + 20.f : this->Ball->velocity.x - 20.f;
 	}
+
+	//Player & Crossbar
+	if (this->player->getHitboxHeadBounds().intersects(this->goalfront->getCrossbarLBounds()) || this->player->getHitboxHeadBounds().intersects(this->goalfront->getCrossbarLBounds()))
+		this->player->velocity.y = -this->player->velocity.y;
+	if (this->player2->getHitboxHeadBounds().intersects(this->goalfront->getCrossbarLBounds()) || this->player2->getHitboxHeadBounds().intersects(this->goalfront->getCrossbarRBounds()))
+		this->player2->velocity.y = -this->player->velocity.y;
 	
 	//Player1 & Player2
 
