@@ -11,6 +11,7 @@ void Game::initWindow()
 	this->gameend = new GameEnd(1280.f, 720.f);
 	this->gametext = new GameText(1280.f, 720.f);
 	this->gamehigh = new GameHigh(1280.f, 720.f);
+	this->gamehowto = new GameHowTo(1280.f, 720.f);
 
 	//Wallpaper
 	this->wallpaper = new Wallpaper();
@@ -215,7 +216,9 @@ void Game::run()
 		}
 		else if (this->gameState == 4) //How to Play
 		{
+			this->gamehowto->render(*this->window);
 			this->mousePosition();
+			this->updateGUIhowto();
 
 		}
 		else if (this->gameState == 5) //Game End
@@ -223,6 +226,16 @@ void Game::run()
 			this->gameend->render(*this->window); 
 			this->mousePosition();
 			this->updateGUIend();
+
+			std::stringstream scoreText1;
+			std::stringstream scoreText2;
+
+			scoreText1 << this->scorePlayer1;
+			scoreText2 << this->scorePlayer2;
+
+			this->gameend->menu[1].setString(scoreText1.str());
+			this->gameend->menu[2].setString(scoreText2.str());
+
 			if (this->highscore == false)
 			{
 				this->highscore = true;
@@ -335,7 +348,7 @@ void Game::updateGUImain()
 	//Play
 	if (this->mainmenu->botton1().contains(this->mousePosition_View))
 	{
-		this->mainmenu->menu[0].setFillColor(sf::Color::Cyan);
+		this->mainmenu->menu[0].setFillColor(sf::Color::Yellow);
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			this->gameState = 1;
 	}
@@ -392,6 +405,9 @@ void Game::updateGUItextbox()
 
 void Game::updateGUIend()
 {
+	this->gameend->scorePlayer1 = this->scorePlayer1;
+	this->gameend->scorePlayer2 = this->scorePlayer2;
+
 	if (this->gameend->botton1().contains(this->mousePosition_View))
 	{
 		this->gameend->menu[0].setFillColor(sf::Color::Cyan);
@@ -427,6 +443,18 @@ void Game::updateGUIHigh()
 	}
 	else if (!this->gamehigh->botton1().contains(this->mousePosition_View))
 		this->gamehigh->menu[0].setFillColor(sf::Color::White);
+}
+
+void Game::updateGUIhowto()
+{
+	if (this->gamehowto->botton1().contains(this->mousePosition_View))
+	{
+		this->gamehowto->menu[0].setFillColor(sf::Color::Cyan);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			this->gameState = 0;
+	}
+	else if (!this->gamehowto->botton1().contains(this->mousePosition_View))
+		this->gamehowto->menu[0].setFillColor(sf::Color::White);
 }
 
 void Game::showhighscore(int x, int y, string word, sf::RenderWindow& window, sf::Font* font)
@@ -654,7 +682,7 @@ void Game::updateCollision()
 	}
 	if (this->goalback->goalRBounds().intersects(this->Ball->getGlobalBoundsBall()))
 	{
-		this->scorePlayer1+=10;
+		this->scorePlayer1++;
 		this->Ball->velocity.x = -10.f;
 		this->Ball->velocity.y = 0.f;
 		this->Ball->setPositionBall(450, 300);

@@ -39,14 +39,14 @@ void GoalBack::render(sf::RenderTarget& target)
 	this->goalL.setFillColor(sf::Color::Transparent);
 	this->goalL.setSize(sf::Vector2f(-40.f, 120.f));
 	this->goalL.setPosition(this->goal_backL.getPosition().x - 50, this->goal_backL.getPosition().y + 60);
-	target.draw(this->goalL);
+	//target.draw(this->goalL);
 
 	this->goalR.setOutlineColor(sf::Color::Green);
 	this->goalR.setOutlineThickness(3);
 	this->goalR.setFillColor(sf::Color::Transparent);
 	this->goalR.setSize(sf::Vector2f(40.f, 120.f));
 	this->goalR.setPosition(this->goal_backR.getPosition().x + 50, this->goal_backR.getPosition().y + 60);
-	target.draw(this->goalR);
+	//target.draw(this->goalR);
 }
 
 const sf::FloatRect GoalBack::goalLBounds() const

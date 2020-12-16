@@ -1,5 +1,5 @@
+fa 10
 HHH 10
 FFFF 3
-hj 0
-hj 0
-hj 0
+ 2
+rt 1

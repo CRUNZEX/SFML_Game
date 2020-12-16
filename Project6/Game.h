@@ -12,6 +12,7 @@
 #include "GameEnd.h"
 #include "GameText.h"
 #include "GameHigh.h"
+#include "GameHowto.h"
 
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
@@ -24,7 +25,7 @@
 #include<iostream>
 #include<stdio.h>
 
-#define GAMETIME 10
+#define GAMETIME 4
 using namespace std;
 
 class Game
@@ -35,6 +36,7 @@ private:
 	GameText* gametext;
 	GameEnd* gameend;
 	GameHigh* gamehigh;
+	GameHowTo* gamehowto;
 	Wallpaper* wallpaper;
 	
 	Player* player;
@@ -126,6 +128,7 @@ public:
 	void updateGUItextbox();
 	void updateGUIend();
 	void updateGUIHigh();
+	void updateGUIhowto();
 
 	void showhighscore(int x, int y, string word, sf::RenderWindow& window, sf::Font* font);
 

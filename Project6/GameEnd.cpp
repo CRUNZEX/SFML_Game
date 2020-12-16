@@ -7,7 +7,7 @@ void GameEnd::initText()
 
 void GameEnd::initMenu()
 {
-	this->bgTexture.loadFromFile("Pictures/GameEnd.png");
+	this->bgTexture.loadFromFile("Pictures/GameText.png");
 	this->bgSprite.setTexture(this->bgTexture);
 }
 
@@ -17,7 +17,7 @@ void GameEnd::initBotton(float width, float height)
 	for (int num = 0; num < MAX_NUMBER; num++)
 	{
 		this->menu[num].setFont(this->Font);
-		(num == 0) ? this->menu[0].setCharacterSize(80) : this->menu[num].setCharacterSize(40);
+		this->menu[num].setCharacterSize(80);
 		this->menu[num].setFillColor(sf::Color::White);
 		this->menu[num].setOutlineColor(sf::Color::Black);
 		this->menu[num].setOutlineThickness(3);
@@ -25,13 +25,13 @@ void GameEnd::initBotton(float width, float height)
 
 	//Text
 	this->menu[0].setString("New Match");
-	this->menu[0].setPosition(sf::Vector2f(width / 2 - 210.f , height - 120.f));
+	this->menu[0].setPosition(sf::Vector2f(width / 2 - 210.f , height - 150.f));
 
-	//this->menu[1].setString("High Score");
-	//this->menu[1].setPosition(sf::Vector2f(100.f, 350.f));
+	/*this->menu[1].setString(scoreText1.str());*/
+	this->menu[1].setPosition(sf::Vector2f(200.f, height - 200.f));
 
-	//this->menu[2].setString("How to Play");
-	//this->menu[2].setPosition(sf::Vector2f(100.f, 400.f));
+	/*this->menu[2].setString(scoreText2.str());*/
+	this->menu[2].setPosition(sf::Vector2f(width - 250.f, height - 200.f));
 
 	//this->menu[3].setString("Exit");
 	//this->menu[3].setPosition(sf::Vector2f(100.f, 450.f));

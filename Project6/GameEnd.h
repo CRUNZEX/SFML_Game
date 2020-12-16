@@ -2,6 +2,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+#include<string>
+#include<sstream>
+#include<iostream>
+#include<stdio.h>
+
+using namespace std;
+
 #define MAX_NUMBER 5
 
 class GameEnd
@@ -36,6 +43,10 @@ public:
 
 	//Text
 	sf::Text menu[MAX_NUMBER];
+
+	//Score
+	int scorePlayer1 = 0;
+	int scorePlayer2 = 0;
 
 	const sf::FloatRect	botton1() const;
 	const sf::FloatRect botton2() const;
