@@ -1,5 +1,5 @@
 fa 10
 HHH 10
 FFFF 3
- 2
 rt 1
+adda 1

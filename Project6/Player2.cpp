@@ -326,24 +326,24 @@ void Player2::updateMovement()
 	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::L))
 		this->keyL = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
-	{
-		this->animState = PLAYER2_ANIMATION_STATES::KICK2;
-		this->kick = true;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
-	{
-		this->animState = PLAYER2_ANIMATION_STATES::PUNCH2;
-		this->punch = true;
-	}
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::N))
-	{
-		this->kick = false;
-	}
-	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::B))
-	{
-		this->punch = false;
-	}
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+	//{
+	//	this->animState = PLAYER2_ANIMATION_STATES::KICK2;
+	//	this->kick = true;
+	//}
+	//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
+	//{
+	//	this->animState = PLAYER2_ANIMATION_STATES::PUNCH2;
+	//	this->punch = true;
+	//}
+	//if (!sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+	//{
+	//	this->kick = false;
+	//}
+	//else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::B))
+	//{
+	//	this->punch = false;
+	//}
 
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::I) && this->jumping2 == false)

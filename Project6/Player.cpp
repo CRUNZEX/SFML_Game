@@ -340,25 +340,25 @@ void Player::updateMovement()
 	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		this->keyD = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
-	{
-		this->animState = PLAYER_ANIMATION_STATES::KICK;
-		this->kick = true;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-	{
-		this->animState = PLAYER_ANIMATION_STATES::PUNCH;
-		this->punch = true;
-	}
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
+	//{
+	//	this->animState = PLAYER_ANIMATION_STATES::KICK;
+	//	this->kick = true;
+	//}
+	//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	//{
+	//	this->animState = PLAYER_ANIMATION_STATES::PUNCH;
+	//	this->punch = true;
+	//}
 
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::T))
-	{
-		this->kick = false;
-	}
-	else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-	{
-		this->punch = false;
-	}
+	//if (!sf::Keyboard::isKeyPressed(sf::Keyboard::T))
+	//{
+	//	this->kick = false;
+	//}
+	//else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	//{
+	//	this->punch = false;
+	//}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && this->jumping == false)
 	{

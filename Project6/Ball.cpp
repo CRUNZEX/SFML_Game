@@ -153,13 +153,13 @@ void ball::updatePhysicsBall()
 
 void ball::updateMovementBall()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LBracket))
-	{
-		this->move(-1.f, 0.f);
-		/*this->velocity.y = -30.f;*/
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::RBracket))
-	{
-		this->move(1.f, 0.f);
-	}
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::LBracket))
+	//{
+	//	this->move(-1.f, 0.f);
+	//	/*this->velocity.y = -30.f;*/
+	//}
+	//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::RBracket))
+	//{
+	//	this->move(1.f, 0.f);
+	//}
 }
