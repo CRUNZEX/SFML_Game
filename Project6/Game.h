@@ -31,7 +31,7 @@
 
 #define GAMETIME 60
 #define ITEMTIME 3.f
-#define BGMUSIC_VOLUME 20
+#define BGMUSIC_VOLUME 100
 
 using namespace std;
 
@@ -120,6 +120,9 @@ private:
 
 	//Goal
 	sf::Text goalText;
+	sf::Clock goalClock;
+	bool goalBool;
+	bool goalBoolRe;
 
 	void initWindow();
 	void initGUI();

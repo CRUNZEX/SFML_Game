@@ -39,14 +39,14 @@ void GoalFront::render(sf::RenderTarget& target)
 	this->hitboxL.setFillColor(sf::Color::Transparent);
 	this->hitboxL.setSize(sf::Vector2f(-80.f, 10.f));
 	this->hitboxL.setPosition(this->goal_frontL.getPosition().x - 25, this->goal_frontL.getPosition().y + 10);
-	target.draw(this->hitboxL);
+	//target.draw(this->hitboxL);
 
 	this->hitboxR.setOutlineColor(sf::Color::White);
 	this->hitboxR.setOutlineThickness(3);
 	this->hitboxR.setFillColor(sf::Color::Transparent);
 	this->hitboxR.setSize(sf::Vector2f(80.f, 10.f));
 	this->hitboxR.setPosition(this->goal_frontR.getPosition().x + 25, this->goal_frontR.getPosition().y + 10);
-	target.draw(this->hitboxR);
+	//target.draw(this->hitboxR);
 
 	this->crossbarL.setOutlineColor(sf::Color::White);
 	this->crossbarL.setOutlineThickness(3);
@@ -54,7 +54,7 @@ void GoalFront::render(sf::RenderTarget& target)
 	this->crossbarL.setSize(sf::Vector2f(-40.f, 10.f));
 	this->crossbarL.setRotation(-50);
 	this->crossbarL.setPosition(this->goal_frontL.getPosition().x - 15, this->goal_frontL.getPosition().y + 10);
-	target.draw(this->crossbarL);
+	//target.draw(this->crossbarL);
 
 	this->crossbarR.setOutlineColor(sf::Color::White);
 	this->crossbarR.setOutlineThickness(3);
@@ -62,7 +62,7 @@ void GoalFront::render(sf::RenderTarget& target)
 	this->crossbarR.setSize(sf::Vector2f(40.f, 10.f));
 	this->crossbarR.setRotation(50);
 	this->crossbarR.setPosition(this->goal_frontR.getPosition().x + 15, this->goal_frontR.getPosition().y + 10);
-	target.draw(this->crossbarR);
+	//target.draw(this->crossbarR);
 
 	sf::CircleShape CircL;
 	CircL.setFillColor(sf::Color::Red);

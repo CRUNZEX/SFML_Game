@@ -99,8 +99,10 @@ void Game::initText()
 
 	//Goal
 	this->goalText.setFont(this->Font);
+	this->goalText.setString("Goal!");
 	this->goalText.setCharacterSize(200);
-	this->goalText.setPosition(300, 300);
+	this->goalText.setPosition(400, 250);
+	this->goalText.setFillColor(sf::Color::Yellow);
 	this->goalText.setOutlineColor(sf::Color::Black);
 	this->goalText.setOutlineThickness(5);
 
@@ -328,7 +330,7 @@ void Game::render()
 	this->goalfront->render(*this->window);
 
 	this->renderGUI();
-	this->renderItem();
+	//this->renderItem();
 	this->renderText();
 }
 
@@ -346,6 +348,31 @@ void Game::updateGUI()
 
 	float hpPercent2 = static_cast<float>(this->player2->HPget()) / this->player2->HPgetMax();
 	this->player2HpBar.setSize(sf::Vector2f(300.f * hpPercent2, this->player2HpBar.getSize().y));
+
+	if (this->goalBool == true && this->goalClock.getElapsedTime().asSeconds() <= 1.f)
+	{
+
+		this->window->draw(this->goalText);
+		if (this->goalClock.getElapsedTime().asSeconds() == 1.f)
+		{
+			this->goalBoolRe = true;
+
+		}
+		//else
+		//	this->goalClock.restart();
+		printf("%f\n", this->goalClock);
+
+		if (this->goalBoolRe == true)
+		{
+			this->Ball->setPositionBall(640, 300);
+			this->player->setPosition(300, 690);
+			this->player2->setPosition(900, 690);
+			this->goalBoolRe = false;
+			this->goalBool = false;
+		}
+	}
+	else
+		this->goalClock.restart();
 }
 
 void Game::renderGUI()
@@ -525,6 +552,7 @@ void Game::renderText()
 	this->window->draw(this->Time);
 	this->window->draw(this->score1);
 	this->window->draw(this->score2);
+	//this->window->draw(this->goalText);
 }
 
 void Game::updateItem()
@@ -639,7 +667,7 @@ void Game::updateCollision()
 		}
 		/*else
 			this->Ball->ballBounds = 0;*/
-		this->Ball->setPositionBall(this->Ball->getPositionBall().x, this->window->getSize().y - this->Ball->getGlobalBoundsBall().height - 50);
+		this->Ball->setPositionBall(this->Ball->getPositionBall().x, 610);
 
 		//printf("Bounds : %d\n", this->Ball->ballBounds);
 		
@@ -727,14 +755,16 @@ void Game::updateCollision()
 		this->scorePlayer2++;
 		this->Ball->velocity.x = 10.f;
 		this->Ball->velocity.y = 0.f;
-		this->Ball->setPositionBall(450, 300);
+		this->Ball->setPositionBall(640, 300);
 	}
 	if (this->goalback->goalRBounds().intersects(this->Ball->getGlobalBoundsBall()))
 	{
 		this->scorePlayer1++;
 		this->Ball->velocity.x = -10.f;
 		this->Ball->velocity.y = 0.f;
-		this->Ball->setPositionBall(450, 300);
+		this->Ball->setPositionBall(640, 300);
+		this->player->setPosition(300, 690);
+		this->player2->setPosition(900, 690);
 	}
 	
 
@@ -852,10 +882,10 @@ void Game::updateCollision()
 	}
 
 	//Player & Crossbar
-	if (this->player->getHitboxHeadBounds().intersects(this->goalfront->getCrossbarLBounds()) || this->player->getHitboxHeadBounds().intersects(this->goalfront->getCrossbarLBounds()))
-		this->player->velocity.y = -this->player->velocity.y;
-	if (this->player2->getHitboxHeadBounds().intersects(this->goalfront->getCrossbarLBounds()) || this->player2->getHitboxHeadBounds().intersects(this->goalfront->getCrossbarRBounds()))
-		this->player2->velocity.y = -this->player->velocity.y;
+	//if (this->player->getHitboxHeadBounds().intersects(this->goalfront->getCrossbarLBounds()) || this->player->getHitboxHeadBounds().intersects(this->goalfront->getCrossbarLBounds()))
+	//	this->player->velocity.y = -this->player->velocity.y;
+	//if (this->player2->getHitboxHeadBounds().intersects(this->goalfront->getCrossbarLBounds()) || this->player2->getHitboxHeadBounds().intersects(this->goalfront->getCrossbarRBounds()))
+	//	this->player2->velocity.y = -this->player->velocity.y;
 	
 	//Player1 & Player2
 

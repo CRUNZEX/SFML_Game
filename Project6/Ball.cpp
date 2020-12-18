@@ -17,7 +17,7 @@ void ball::initsSpite()
 	this->sprite.setTexture(&this->texture);
 	this->sprite.setScale(1.f, 1.f);
 	this->sprite.setPosition(640, 300);
-	this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2.f, this->sprite.getLocalBounds().height / 2.f);
+	this->sprite.setOrigin(this->sprite.getLocalBounds().width / 1.9f, this->sprite.getLocalBounds().height / 1.9f);
 }
 
 void ball::initPhysics()
@@ -72,7 +72,7 @@ void ball::resetVelocityYBall()
 
 void ball::move(const float dirX, const float dirY)
 {
-	this->sprite.rotate(this->velocity.x * 10.f);
+	//this->sprite.rotate(this->velocity.x * 10.f);
 	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 
 	//collision
@@ -102,11 +102,13 @@ void ball::renderBall(sf::RenderTarget& target)
 	Circ.setFillColor(sf::Color::Red);
 	Circ.setRadius(3.f);
 	Circ.setPosition(this->sprite.getPosition());
-	target.draw(Circ);
+	//target.draw(Circ);
 }
 
 void ball::updatePhysicsBall()
 {
+	this->sprite.rotate(this->velocity.x * 2.f);
+	//printf("posY : %f\n", this->sprite.getPosition().y);
 	//printf("x : %f	y : %f\n", this->velocity.x, this->velocity.y);
 
 	//this->rotation = this->velocity.x;
