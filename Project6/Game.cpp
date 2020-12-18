@@ -27,6 +27,12 @@ void Game::initWindow()
 	this->goal = new Goal();
 	this->goalfront = new GoalFront();
 	this->goalback = new GoalBack();
+
+	//Item
+	this->item = new Item();
+
+	musicBG.openFromFile("File/BG.ogg");
+	musicBG.setVolume(BGMUSIC_VOLUME);
 }
 void Game::initGUI()
 {
@@ -90,6 +96,14 @@ void Game::initText()
 	this->score2.setPosition(780, 50);
 	this->score2.setOutlineColor(sf::Color::Black);
 	this->score2.setOutlineThickness(5);
+
+	//Goal
+	this->goalText.setFont(this->Font);
+	this->goalText.setCharacterSize(200);
+	this->goalText.setPosition(300, 300);
+	this->goalText.setOutlineColor(sf::Color::Black);
+	this->goalText.setOutlineThickness(5);
+
 }
 Game::Game()
 {
@@ -134,9 +148,11 @@ void Game::run()
 		fscanf(fp, "%d", &score[i]);
 		userScore.push_back(make_pair(score[i], name[i]));
 	}
-
+	musicBG.play();
+	musicBG.setLoop(true);
 	while (this->window->isOpen())
 	{
+		musicBG.setLoop(true);
 		sf::Event e;
 		while (this->window->pollEvent(e))
 		{
@@ -170,9 +186,6 @@ void Game::run()
 		}
 		this->window->clear();
 
-		
-
-	
 		if (this->gameState == 0) //Menu
 		{
 			this->mainmenu->render(*this->window);
@@ -208,7 +221,8 @@ void Game::run()
 			this->mousePosition();
 			this->updateGUIHigh();
 
-			for (int i = 135; i <= 475; i += 85) {
+			for (int i = 135; i <= 475; i += 85) 
+			{
 				showhighscore(950, i, to_string(userScore[(i - 135) / 85].first), *this->window, &Font);
 				showhighscore(250, i, userScore[j + (i - 135) / 85].second, *this->window, &Font);
 			}
@@ -249,7 +263,8 @@ void Game::run()
 				sort(userScore.begin(), userScore.end());
 				fclose(fp);
 				fopen("./score.txt", "w");
-				for (int i = 4 + j; i >= 0 + j; i--) {
+				for (int i = 4 + j; i >= 0 + j; i--) 
+				{
 					strcpy(temp, userScore[i].second.c_str());
 					fprintf(fp, "%s %d\n", temp, userScore[i].first);
 				}
@@ -262,7 +277,8 @@ void Game::run()
 				sort(userScore.begin(), userScore.end());
 				fclose(fp);
 				fopen("./score.txt", "w");
-				for (int i = 4 + j; i >= 0 + j; i--) {
+				for (int i = 4 + j; i >= 0 + j; i--) 
+				{
 					strcpy(temp, userScore[i].second.c_str());
 					fprintf(fp, "%s %d\n", temp, userScore[i].first);
 				}
@@ -281,9 +297,12 @@ void Game::update()
 
 	this->updateGUI();
 	/*this->action();*/
+	this->updateItem();
 	this->ability();
 	this->updateText();
 	this->updateCollision();
+
+	this->updateItem();
 }
 
 void Game::render()
@@ -309,7 +328,7 @@ void Game::render()
 	this->goalfront->render(*this->window);
 
 	this->renderGUI();
-
+	this->renderItem();
 	this->renderText();
 }
 
@@ -393,8 +412,6 @@ void Game::updateGUItextbox()
 {
 	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 		this->gameState = 2;*/
-
-	
 
 	if (this->gametext->botton1().contains(this->mousePosition_View))
 	{
@@ -481,7 +498,7 @@ void Game::updateText()
 
 	if (this->timeClock.getElapsedTime().asSeconds() >= 1.f)
 	{
-		if (this->timeCount <= GAMETIME)
+		if (this->timeCount < GAMETIME)
 			this->timeCount++;
 		else
 			this->gameState = 5;
@@ -508,6 +525,31 @@ void Game::renderText()
 	this->window->draw(this->Time);
 	this->window->draw(this->score1);
 	this->window->draw(this->score2);
+}
+
+void Game::updateItem()
+{
+	this->item->updateMovement();
+	
+}
+
+void Game::renderItem()
+{
+	if (this->timeCount == this->item->timeDrop)
+		this->itemDraw = true;
+
+	if (this->itemDraw == true && this->itemClock.getElapsedTime().asSeconds() <= ITEMTIME)
+	{
+		this->item->render(*this->window);
+		this->item->updatePhysic();
+		/*this->item->moveItem1(1.f, 0.f);*/
+	}
+	else
+	{
+		this->item->setPositionItem1(this->item->posX_random, 300.f);
+		this->itemDraw = false;
+		this->itemClock.restart();
+	}
 }
 
 void Game::updatePlayer()
@@ -585,7 +627,7 @@ void Game::updateCollision()
 		this->player2->gravityBool2 = false;
 	}
 
-	if (this->Ball->getPositionBall().y + this->Ball->getGlobalBoundsBall().height + 80 > this->window->getSize().y)
+	if (this->Ball->getPositionBall().y + this->Ball->getGlobalBoundsBall().height + 60 > this->window->getSize().y)
 	{
 		if (this->Ball->ballBounds < 5 && this->Ball->ballBounds >= 0)
 		{
@@ -597,12 +639,16 @@ void Game::updateCollision()
 		}
 		/*else
 			this->Ball->ballBounds = 0;*/
-		this->Ball->setPositionBall(this->Ball->getPositionBall().x, this->window->getSize().y - this->Ball->getGlobalBoundsBall().height - 80);
+		this->Ball->setPositionBall(this->Ball->getPositionBall().x, this->window->getSize().y - this->Ball->getGlobalBoundsBall().height - 50);
 
 		//printf("Bounds : %d\n", this->Ball->ballBounds);
 		
 		//this->Ball->resetVelocityYBall();
 		//this->Ball->setPositionBall(this->Ball->getPositionBall().x, this->window->getSize().y - this->Ball->getGlobalBoundsBall().height - 35);
+	}
+	if (this->item->getPositionItem1().y + this->item->getGlobalBoundsItem1().height + 60 > this->window->getSize().y)
+	{
+		this->item->setPositionItem1(this->item->getPositionItem1().x, 607);
 	}
 
 	//collision right of screen

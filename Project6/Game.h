@@ -13,9 +13,11 @@
 #include "GameText.h"
 #include "GameHigh.h"
 #include "GameHowto.h"
+#include "Item.h"
 
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
+#include<SFML/Audio.hpp>
 
 #include<string>
 #include<sstream>
@@ -24,8 +26,12 @@
 #include<vector>
 #include<iostream>
 #include<stdio.h>
+#include<time.h>
+#include<Windows.h>
 
-#define GAMETIME 5
+#define GAMETIME 60
+#define ITEMTIME 3.f
+#define BGMUSIC_VOLUME 20
 
 using namespace std;
 
@@ -39,6 +45,7 @@ private:
 	GameHigh* gamehigh;
 	GameHowTo* gamehowto;
 	Wallpaper* wallpaper;
+	Item* item;
 	
 	Player* player;
 	Player2* player2;
@@ -69,6 +76,10 @@ private:
 	sf::Text Time;
 	sf::Text score1;
 	sf::Text score2;
+
+	//Sound
+	sf::Music musicBG;
+	sf::Sound BG;
 
 	//ability
 	int ballBoundsPlayer1 = 0;
@@ -103,6 +114,12 @@ private:
 	vector<pair<int, string>>userScore;
 	bool highscore = false;
 
+	//Item
+	sf::Clock itemClock;
+	bool itemDraw = false;
+
+	//Goal
+	sf::Text goalText;
 
 	void initWindow();
 	void initGUI();
@@ -135,6 +152,9 @@ public:
 
 	void updateText();
 	void renderText();
+
+	void updateItem();
+	void renderItem();
 
 	void updatePlayer();
 	void updatePlayer2();
