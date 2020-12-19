@@ -19,6 +19,7 @@
 #include<SFML/System.hpp>
 #include<SFML/Audio.hpp>
 
+#include<stdexcept> 
 #include<string>
 #include<sstream>
 #include<utility>
